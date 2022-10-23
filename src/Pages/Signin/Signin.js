@@ -1,6 +1,6 @@
 import React from 'react'
-import SigninForm from '../Components/signin-com/SigninForm'
-import Topsec from '../Components/Topsec'
+import SigninForm from '../../Components/signin-com/SigninForm'
+import Topsec from '../../Components/Topsec'
 
 function Signin() {
   return (

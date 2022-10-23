@@ -1,7 +1,8 @@
 import {BrowserRouter, Route,  Routes} from 'react-router-dom';
-import ResetPassword from './ResetPassword/ResetPassword';
-import ResetPasswordValidation from './ResetPassword/ResetPasswordValidation';
-import Signin from './Signin/Signin';
+import PageNotFound from './Pages/404/PageNotFound';
+import ResetPassword from './Pages/ResetPassword/ResetPassword';
+import ResetPasswordValidation from './Pages/ResetPassword/ResetPasswordValidation';
+import Signin from './Pages/Signin/Signin';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <Route path='/' element={<Signin />} />
         <Route path='/resetpassword' element={<ResetPasswordValidation />}/>
         <Route path='/resetpasswordvali' element={<ResetPassword />}/>
+        <Route path='*' element={<PageNotFound />} />
       </Routes>
      </BrowserRouter>
     </div>

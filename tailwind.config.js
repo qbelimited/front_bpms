@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       colors: {
         'input-color': '#D9D9D9',
-       
+        'error-code': '#FFE6E6'
       },
     },
   },

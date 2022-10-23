@@ -8,13 +8,12 @@ import TextBox from '../SelectValue/TextBox'
 function PasswordVali() {
         const [modal, setModal] = useState(false)
         const navigate = useNavigate();
+
     const handleSubmit = (e) =>{
         e.preventDefault()
             setModal(true)
     }
-    const handleClose = () =>{
-        setModal(false)
-    }
+  
     const handleNextPage = () =>{
             navigate('/resetpassword')
     }
@@ -22,7 +21,7 @@ function PasswordVali() {
     <>
     <LoginModal 
         open={modal}
-        handleClose={handleClose}
+       
         header='Reset password'
         body='We have sent a password reset code to your
             email address please provide the code and

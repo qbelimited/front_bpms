@@ -1,6 +1,6 @@
 import React from 'react'
-import PasswordVali from '../Components/ResetPassword/PasswordVali'
-import Topsec from '../Components/Topsec'
+import PasswordVali from '../../Components/ResetPassword/PasswordVali'
+import Topsec from '../../Components/Topsec'
 
 function ResetPassword() {
   return (
