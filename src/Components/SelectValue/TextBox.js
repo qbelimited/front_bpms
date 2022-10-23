@@ -10,6 +10,7 @@ export default function TextBox({value, onChange, label, type}) {
         variant="outlined"
         value= {value}
         onChange= {onChange}
+        required
         type={type}
         className=' w-full bg-gray-100 p-px'
          />
