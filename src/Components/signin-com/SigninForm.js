@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import LinkLogin from '../LinkLogin'
 import Button from '../SelectValue/Button'
 import PasswordField from '../SelectValue/PasswordField'
 import TextBox from '../SelectValue/TextBox'
@@ -29,9 +30,10 @@ function SigninForm() {
               
     </div>
     </form>
-    <Link to='/resetpasswordvali'>
-    <h5 className=' text-gray-400 mt-6 md:pl-6 hover:text-purple-600'>I have forgotten my password</h5>
-    </Link>
+    <LinkLogin 
+        path='/resetpasswordvali'
+        title='I have forgotten my password'
+    />
   
     </> 
   )
