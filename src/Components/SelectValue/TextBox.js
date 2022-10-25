@@ -12,7 +12,7 @@ export default function TextBox({value, onChange, label, type, bool}) {
         onChange= {onChange}
         required
         type={type}
-        className={bool ? ' w-full bg-gray-100 border border-gray-100  rounded-md p-px' : ' rounded-md w-full bg-gray-100 p-px'}
+        className={bool ? ' w-full  border  rounded-md p-px' : ' rounded-md w-full bg-gray-100 p-px'}
          />
      
     </div>

@@ -30,6 +30,9 @@ import Arrow from '../../images/arrd.png';
 import User from '../../images/userIcon.png';
 import DashboardMain from '../DashboardMain/DashboardMain';
 import UserPage from '../User/User';
+import PlateProduction from '../PlateProduction/PlateProduction';
+import EmbossingProcess from '../EmbossingProcess/EmbossingProcess';
+import ManagePlate from '../ManagePlate/ManagePlate';
 
 const drawerWidth = 240;
 
@@ -138,17 +141,17 @@ export default function MiniDrawer() {
         subMenu: [
             {
               name: "Plate production",
-              link: "/",
+              link: "/plateProduction",
               id: "plate-production",
             },
             {
               name: "Embossing progress",
-              link: "/",
+              link: "/embossing",
               id: "embossing",
             },
             {
                 name: "Manage plates",
-                link: "/",
+                link: "/manageplate",
                 id: "manage",
               },
           ],
@@ -243,7 +246,7 @@ export default function MiniDrawer() {
     {
         name: 'Sign out',
         icon: (
-            <LogoutIcon  />
+            <LogoutIcon style={{ color: 'red' }}  />
         ),
         color: ' text-red-700',
         link: '/',
@@ -341,6 +344,9 @@ export default function MiniDrawer() {
             <Routes>
                 <Route path='/dashboard' element={<DashboardMain />}/>
                 <Route path='/user' element={<UserPage />} />
+                <Route path='/plateProduction' element={<PlateProduction />} />
+                <Route path='/embossing' element={<EmbossingProcess />} />
+                <Route  path='/manageplate' element={<ManagePlate/>}/>
             </Routes>
       </Box>
     </Box>

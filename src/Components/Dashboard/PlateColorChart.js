@@ -32,7 +32,7 @@ export default function PieChart() {
           
         ],
         borderWidth: 1,
-        cutout: 50,
+        cutout: 70,
        
       },
     ],
@@ -83,7 +83,7 @@ export default function PieChart() {
             },
             
             responsive: true,
-            cutoutPercentage: 10,
+            
             legend: {
               display: true,
               position: "right",
