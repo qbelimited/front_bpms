@@ -8,7 +8,8 @@ module.exports = {
       colors: {
         'input-color': '#D9D9D9',
         'error-code': '#FFE6E6',
-        'the-color': '#9747FF'
+        'the-color': '#9747FF',
+        'chart-co': '#FBFBFB'
       },
     },
   },

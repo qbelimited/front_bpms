@@ -14,8 +14,8 @@ function App() {
         <Route path='/' element={<Signin />} />
         <Route path='/resetpassword' element={<ResetPasswordValidation />}/>
         <Route path='/resetpasswordvali' element={<ResetPassword />}/>
-        <Route path='/dashboard' element={<MiniDrawer />} />
-        <Route path='*' element={<PageNotFound />} />
+        <Route path='*' element={<MiniDrawer />} />
+        {/* <Route path='*' element={<PageNotFound />} /> */}
       </Routes>
      </BrowserRouter>
     </div>

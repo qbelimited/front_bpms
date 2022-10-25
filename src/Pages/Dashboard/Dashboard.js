@@ -25,10 +25,12 @@ import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined
 import LogoutIcon from '@mui/icons-material/Logout';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import MoneySharpIcon from '@mui/icons-material/MoneySharp';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink, Route, Routes } from 'react-router-dom';
 import Arrow from '../../images/arrd.png';
 import User from '../../images/userIcon.png';
-import { grey } from '@mui/material/colors';
+import DashboardMain from '../DashboardMain/DashboardMain';
+import UserPage from '../User/User';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -272,7 +274,9 @@ export default function MiniDrawer() {
        
         </Toolbar>
             <div className=' flex flex-col justify-center p-2'>
+                <Link to='/user'>
                     <img src={User} alt='User' width='40' height='40'/>
+                    </Link>
                     </div>
                  </div>
         
@@ -334,7 +338,10 @@ export default function MiniDrawer() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-      
+            <Routes>
+                <Route path='/dashboard' element={<DashboardMain />}/>
+                <Route path='/user' element={<UserPage />} />
+            </Routes>
       </Box>
     </Box>
   );

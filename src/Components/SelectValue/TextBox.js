@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextField } from '@mui/material'
 
-export default function TextBox({value, onChange, label, type}) {
+export default function TextBox({value, onChange, label, type, bool}) {
   return (
     <div>
        <label className=' block mb-2'>{label}</label> 
@@ -12,7 +12,7 @@ export default function TextBox({value, onChange, label, type}) {
         onChange= {onChange}
         required
         type={type}
-        className=' w-full bg-gray-100 p-px'
+        className={bool ? ' w-full bg-gray-100 border border-gray-100  rounded-md p-px' : ' rounded-md w-full bg-gray-100 p-px'}
          />
      
     </div>
