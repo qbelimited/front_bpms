@@ -1,6 +1,9 @@
 import React from 'react'
+import PieChart from '../../Components/Dashboard/PlateColorChart'
+
 import PlateProducedChart from '../../Components/Dashboard/PlateProducedChart'
 import PlateSizeChart from '../../Components/Dashboard/PlateSizeChart'
+
 import UserActivity from '../../Components/Dashboard/UserActivity'
 
 function DashboardMain() {
@@ -12,8 +15,9 @@ function DashboardMain() {
         </div>
         <PlateProducedChart />
         <div className=' mt-5 grid md:grid-cols-2 gap-4'>
+        <PieChart />
             <PlateSizeChart />
-            <PlateSizeChart />
+            
         </div>
        <UserActivity />
     </div>

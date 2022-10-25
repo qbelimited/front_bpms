@@ -9,7 +9,7 @@ function SelectButton({value, onChange, items}) {
     <div className=' w-32'>
             <FormControl fullWidth size="small">
             {items.map((i, index) =>(
-                <InputLabel id="demo-simple-select-label">{index === 0 ? i : null}</InputLabel>
+                <InputLabel key={i} id="demo-simple-select-label">{index === 0 ? i : null}</InputLabel>
                 ))}
             
                 <Select
@@ -20,7 +20,7 @@ function SelectButton({value, onChange, items}) {
                 onChange={onChange}
                 >
                 {items.map((i) =>(
-                    <MenuItem value={i}>{i}</MenuItem>
+                    <MenuItem key={i} value={i}>{i}</MenuItem>
                 ))}
                 
                 </Select>
