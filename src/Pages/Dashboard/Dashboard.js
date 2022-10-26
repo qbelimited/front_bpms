@@ -249,9 +249,28 @@ export default function MiniDrawer() {
         icon: (
             <DonutLargeIcon />
         ),
-        link: '/dashboard',
+        link: '#',
         id: 'report',
-    },
+        isOpen: false,
+        isMenu: true,
+        subMenu: [
+            {
+              name: "System logs",
+              link: "#",
+              id: "systemlog",
+            },
+            {
+              name: "Audit trail",
+              link: "#",
+              id: "audt",
+            },
+            {
+                name: "Statistical reports",
+                link: "#",
+                id: "streport",
+              },
+             
+          ],},
     {
         name: 'Sign out',
         icon: (
