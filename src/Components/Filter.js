@@ -3,7 +3,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel'
+
 import FilterIcon from '../images/filter.png'
 function Filter() {
 
@@ -21,7 +21,7 @@ function Filter() {
      
                 <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="female"
+                    defaultValue="small"
                     name="radio-buttons-group"
                 >
                 <div className=' flex justify-between'>

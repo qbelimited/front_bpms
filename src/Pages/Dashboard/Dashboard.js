@@ -33,6 +33,9 @@ import UserPage from '../User/User';
 import PlateProduction from '../PlateProduction/PlateProduction';
 import EmbossingProcess from '../EmbossingProcess/EmbossingProcess';
 import ManagePlate from '../ManagePlate/ManagePlate';
+import Storage from '../Storage/Storage';
+import Bills from '../Bills/Bills';
+import Delivery from '../Delivery/Delivery';
 
 const drawerWidth = 240;
 
@@ -161,7 +164,7 @@ export default function MiniDrawer() {
         icon: (
             <StorefrontIcon />
         ),
-        link: '/',
+        link: '/storage',
         id: 'storage',
     },
     {
@@ -169,7 +172,7 @@ export default function MiniDrawer() {
         icon: (
             <LocalShippingOutlinedIcon />
         ),
-        link: '/',
+        link: '/delivery',
         id: 'delivery',
     },
     {
@@ -177,7 +180,7 @@ export default function MiniDrawer() {
         icon: (
             <DescriptionOutlinedIcon />
         ),
-        link: '/',
+        link: '/bills',
         id: 'bills',
     },
     {
@@ -347,6 +350,9 @@ export default function MiniDrawer() {
                 <Route path='/plateProduction' element={<PlateProduction />} />
                 <Route path='/embossing' element={<EmbossingProcess />} />
                 <Route  path='/manageplate' element={<ManagePlate/>}/>
+                <Route path='/storage' element={<Storage />} />
+                <Route path='/bills' element={<Bills />}/>
+                <Route path='/delivery' element={<Delivery/>} />
             </Routes>
       </Box>
     </Box>
