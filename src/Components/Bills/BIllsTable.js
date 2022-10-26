@@ -7,43 +7,49 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import { styled } from '@mui/material/styles';
 
 const columns = [
   { id: 'sn', label: 'S/N', minWidth: 30 },
-  { id: 'mode', label: 'Mode?', minWidth: 100 },
+  { id: 'timestamp', label: 'Time stamp', minWidth: 170 },
   {
-    id: 'quan',
-    label: 'Quantity',
-    minWidth: 100,
+    id: 'bill',
+    label: 'Bill(invoice number)',
+    minWidth: 170,
     align: 'right',
     
   },
   {
-    id: 'name',
-    label: 'Company name',
+    id: 'company',
+    label: 'Company',
     minWidth: 170,
     align: 'center',
   
   },
   {
-    id: 'time',
-    label: 'Timestamp',
-    minWidth: 170,
+    id: 'sent',
+    label: 'Sent by',
+    minWidth: 120,
     align: 'center',
    
   },
   {
-    id: 'sentby',
-    label: 'Sent by',
+    id: 'received',
+    label: 'Received by',
     minWidth: 100,
     align: 'right',
    
   },
   {
-    id: 'invoice',
-    label: 'Invoice',
+    id: 'status',
+    label: 'Status',
+    minWidth: 170,
+    align: 'right',
+   
+  },
+  {
+    id: 'action',
+    label: 'Action',
     minWidth: 170,
     align: 'right',
    
@@ -59,27 +65,23 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
   }));
 
-function createData(sn, mode, quan, name, time, sentby, invoice) {
+function createData(sn, timestamp, bill, company, sent, received, status,action ) {
   
-  return { sn, mode, quan, name, time, sentby, invoice};
+  return { sn,timestamp, bill, company, sent, received, status,action };
 }
 
 const rows = [
-  createData('01', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('02', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('03', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('04', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('05', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('06', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('07', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('08', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('09', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('10', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('11', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('12', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
+  createData('01', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
+  createData('02', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
+  createData('03', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
+  createData('04', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Pending.'),
+  createData('05', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
+  createData('06', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
+  createData('07', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Pending.'),
+  createData('08', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
 ];
 
-export default function DeliveryTable() {
+function BIllsTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
   
@@ -122,12 +124,16 @@ export default function DeliveryTable() {
                 <TableCell component="th" scope="row">
                   {row.sn}
                 </TableCell>
-                <TableCell align="left">{row.mode}</TableCell>
-                <TableCell align="center">{row.quan}</TableCell>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="right">{row.time}</TableCell>
-                <TableCell align="right">{row.sentby}</TableCell>
-                <TableCell align="right"><InsertDriveFileOutlinedIcon sx={{color: 'blue'}}/><span className=' text-blue-700'>{row.invoice}</span></TableCell>
+                <TableCell align="left">{row.timestamp}</TableCell>
+                <TableCell align="center">{row.bill}</TableCell>
+                <TableCell align="center">{row.company}</TableCell>
+                <TableCell align="right">{row.sent}</TableCell>
+                <TableCell align="right">{row.received}</TableCell>
+                <TableCell align="right">{row.status}</TableCell>
+                
+                <TableCell align="right">{row.action === 'Confirmed.'?<span className=' bg-suc-color text-suc-text rounded-lg p-3'>{row.action}</span>: 
+                <span className=' bg-inpro-co text-inpro-text rounded-lg p-3'>{row.action}</span>
+                }</TableCell>
               </TableRow>
                   );
                 })}
@@ -146,3 +152,5 @@ export default function DeliveryTable() {
       </Paper>
     );
 }
+
+export default BIllsTable
