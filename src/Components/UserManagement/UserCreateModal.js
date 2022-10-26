@@ -35,7 +35,7 @@ function UserCreateModal({open, handleClose}) {
           <Box sx={style} className=' shadow-lg rounded-md'>
             <Typography id="modal-modal-title" className='' variant="h6" component="h2">
               <div className=' flex justify-between'>
-                  <h1 className=' text-gray-400'>Update company information</h1>
+                  <h1 className=' text-gray-400'>Add new user</h1>
                  <div onClick={handleClose}>
                  <HighlightOffOutlinedIcon />
                  </div> 

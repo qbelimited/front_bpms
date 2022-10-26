@@ -38,6 +38,10 @@ import Bills from '../Bills/Bills';
 import Delivery from '../Delivery/Delivery';
 import CompanyManagement from '../Management/CompanyManagement';
 import UserManagement from '../Management/UserManagement';
+import PlatesSettings from '../Settings/PlatesSettings';
+import AppSettings from '../Settings/AppSettings';
+import Aboutbpms from '../Settings/Aboutbpms';
+import HelpSupport from '../Settings/HelpSupport';
 
 const drawerWidth = 240;
 
@@ -220,22 +224,22 @@ export default function MiniDrawer() {
         subMenu: [
             {
               name: "Plates settings",
-              link: "/",
+              link: "/platesettings",
               id: "plate-setting",
             },
             {
               name: "App settings",
-              link: "/",
+              link: "/appsettings",
               id: "app-setting",
             },
             {
                 name: "About BPMS",
-                link: "/",
+                link: "/aboutus",
                 id: "about-bpms",
               },
               {
                 name: "Help and support",
-                link: "/",
+                link: "/helpandsupport",
                 id: "help",
               },
           ],
@@ -245,7 +249,7 @@ export default function MiniDrawer() {
         icon: (
             <DonutLargeIcon />
         ),
-        link: '/',
+        link: '/dashboard',
         id: 'report',
     },
     {
@@ -254,7 +258,7 @@ export default function MiniDrawer() {
             <LogoutIcon style={{ color: 'red' }}  />
         ),
         color: ' text-red-700',
-        link: '/',
+        link: '/dashboard',
         id: 'signout',
     },
   ])
@@ -357,6 +361,10 @@ export default function MiniDrawer() {
                 <Route path='/delivery' element={<Delivery/>} />
                 <Route path='/companymanagement' element={<CompanyManagement />} />
                 <Route path='/usermanagement' element={<UserManagement />} />
+                <Route path='/platesettings' element={<PlatesSettings />} />
+                <Route path='/appsettings' element={<AppSettings />}  />
+                <Route path='/aboutus' element={<Aboutbpms />} />
+                <Route path='/helpandsupport' element= {<HelpSupport />} />
             </Routes>
       </Box>
     </Box>
