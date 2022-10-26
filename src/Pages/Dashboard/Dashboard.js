@@ -36,6 +36,8 @@ import ManagePlate from '../ManagePlate/ManagePlate';
 import Storage from '../Storage/Storage';
 import Bills from '../Bills/Bills';
 import Delivery from '../Delivery/Delivery';
+import CompanyManagement from '../Management/CompanyManagement';
+import UserManagement from '../Management/UserManagement';
 
 const drawerWidth = 240;
 
@@ -195,12 +197,12 @@ export default function MiniDrawer() {
         subMenu: [
             {
               name: "Company mgment",
-              link: "/",
+              link: "/companymanagement",
               id: "company-mgment",
             },
             {
               name: "User management",
-              link: "/",
+              link: "/usermanagement",
               id: "user-mang",
             },
            
@@ -353,6 +355,8 @@ export default function MiniDrawer() {
                 <Route path='/storage' element={<Storage />} />
                 <Route path='/bills' element={<Bills />}/>
                 <Route path='/delivery' element={<Delivery/>} />
+                <Route path='/companymanagement' element={<CompanyManagement />} />
+                <Route path='/usermanagement' element={<UserManagement />} />
             </Routes>
       </Box>
     </Box>
