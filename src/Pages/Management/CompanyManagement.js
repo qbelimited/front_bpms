@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import Back from '../../Components/Back'
 import CompanyCreateModal from '../../Components/CompanyManagement/CompanyCreateModal'
 import CompanyManageTable from '../../Components/CompanyManagement/CompanyManageTable'
 import AddsButtion from '../../Components/SelectValue/AddButtion'
@@ -13,6 +14,7 @@ function CompanyManagement() {
         open={open}
         handleClose={handleClose}
     />
+    <Back />
         <div className=' mb-4'>
             <h1 className=' font-bold text-start '>Company management</h1>
             <p className=' text-gray-400 text-start'>Company management page - Please edit to fit proper descriprion of the page</p>

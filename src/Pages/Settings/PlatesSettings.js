@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import Back from '../../Components/Back'
 import PlateColorModal from '../../Components/PlatesSetting/PlateColorModal'
 import PlateColorTable from '../../Components/PlatesSetting/PlateColorTable'
 import PlateSizeModal from '../../Components/PlatesSetting/PlateSizeModal'
@@ -16,6 +17,7 @@ function PlatesSettings() {
     const handleClose2 = (() => setOpen({...open, second: false}))
   return (
     <div>
+    <Back />
     <PlateColorModal 
         open={open.first}
         handleClose={handleClose1}

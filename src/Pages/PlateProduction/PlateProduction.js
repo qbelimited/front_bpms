@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import Back from '../../Components/Back';
 import PlateProductionModal from '../../Components/PlateProduction/PlateProductionModal';
 import PlateProTable from '../../Components/PlateProduction/PlateProTable';
 import AddsButtion from '../../Components/SelectValue/AddButtion'
@@ -13,6 +14,7 @@ function PlateProduction() {
         open={open}
         handleClose={handleClose}
     />
+    <Back />
          <div>
             <h1 className=' font-bold text-start '>Production progress</h1>
             <p className=' text-gray-400 text-start'>Plate production page - Please edit to fit proper descriprion of the page</p>

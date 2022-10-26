@@ -3,9 +3,11 @@ import UserForm from '../../Components/User/UserForm'
 import Car from '../../images/car.png'
 import UserIcon from '../../images/useri.png'
 import Notice from '../../images/notice.png'
+import Back from '../../Components/Back'
 function UserPage() {
   return (
     <div>
+    <Back/>
          <div>
             <h1 className=' font-bold text-start '>Page profile</h1>
             <p className=' text-gray-400 text-start'>User profile page - Please edit to fit proper descriprion of the page</p>
