@@ -75,7 +75,7 @@ function TableStorage() {
   
     return (
       <Paper className=' w-full overflow-hidden bg-gray-300'>
-            <div className='ml-2 mt-3 mb-6 grid grid-cols-2'>
+            <div className='ml-2 mt-3 mb-6 grid md:grid-cols-2'>
               <SelectButton 
                 items={items}
                 bool={bool}

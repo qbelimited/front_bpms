@@ -358,7 +358,9 @@ export default function MiniDrawer() {
               </ListItemButton>
               </NavLink>
               {text.isMenu && open && text.isOpen ? text.subMenu.map((i) =>(
-                <p key={i} className=' text-center py-1 text-gray-400'><NavLink to={i.link}>{i.name}</NavLink></p>
+                
+                <p key={i}  className=' pl-16 text-start py-1 text-gray-400'><NavLink to={i.link}>{i.name}</NavLink></p>
+                
                   )) : null}
             </ListItem>
             
