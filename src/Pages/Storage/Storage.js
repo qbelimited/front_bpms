@@ -20,8 +20,7 @@ function Storage() {
             <p className=' text-gray-400 text-start'>Storage page - Please edit to fit proper descriprion of the page</p>
 
         </div>
-        
-        <AddsButtion 
+                <AddsButtion 
           name='Create warehouse'
           onClick={handleOpen}
         />
