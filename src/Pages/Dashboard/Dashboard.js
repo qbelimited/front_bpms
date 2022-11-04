@@ -42,6 +42,7 @@ import PlatesSettings from '../Settings/PlatesSettings';
 import AppSettings from '../Settings/AppSettings';
 import Aboutbpms from '../Settings/Aboutbpms';
 import HelpSupport from '../Settings/HelpSupport';
+import Logout from '../Logout';
 
 const drawerWidth = 240;
 
@@ -277,7 +278,7 @@ export default function MiniDrawer() {
             <LogoutIcon style={{ color: 'red' }}  />
         ),
         color: ' text-red-700',
-        link: '/dashboard',
+        link: '/logout',
         id: 'signout',
     },
   ])
@@ -386,6 +387,7 @@ export default function MiniDrawer() {
                 <Route path='/appsettings' element={<AppSettings />}  />
                 <Route path='/aboutus' element={<Aboutbpms />} />
                 <Route path='/helpandsupport' element= {<HelpSupport />} />
+                <Route path='/logout' element={<Logout />} />
             </Routes>
       </Box>
     </Box>

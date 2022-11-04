@@ -9,7 +9,7 @@ export default function TextBox({value, onChange, label, type, bool}) {
        id="outlined-basic"
         variant="outlined"
         value= {value}
-        onChange= {onChange}
+        onChange={(e) => onChange(e.target.value)} 
         required
         type={type}
         className={bool ? ' w-full  border  rounded-md p-px' : ' rounded-md w-full bg-gray-100 p-px'}

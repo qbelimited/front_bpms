@@ -4,7 +4,7 @@ import AddsButtion from '../../Components/SelectValue/AddButtion'
 import StorageModal from '../../Components/Storage/StorageModal';
 import TableStorage from '../../Components/Storage/TableStorage'
 
-function Storage() {
+function Storage(){
   const [open, setOpen] = useState(false);
   const handleOpen = (() => setOpen(true))
   const handleClose = (() => setOpen(false))

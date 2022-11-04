@@ -33,7 +33,7 @@ function PasswordField({ onChange,label, value }) {
         type={values ? 'text' : 'password'}
         value={value}
         required
-        onChange={onChange}
+        onChange={(e) => onChange(e.target.value)}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
