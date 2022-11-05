@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, {useState, useEffect} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,6 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import { styled } from '@mui/material/styles';
+import GetServices from '../../Services/get-services';
 
 const columns = [
   { id: 'sn', label: 'S/N', minWidth: 30 },
@@ -80,8 +81,27 @@ const rows = [
 ];
 
 export default function DeliveryTable() {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const[deleveries, setDeliveries] = useState([])
+
+    useEffect(() =>{
+      GetServices.getAllDeliveries().then(
+        (response) => {
+          setDeliveries(response.data['all deliveries']);
+          console.log(response.data)
+          
+        },
+        (error) => {
+          const _content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+  
+            setDeliveries(_content);
+        }
+      )
+    }, [deleveries])
   
     const handleChangePage = (event, newPage) => {
       setPage(newPage);

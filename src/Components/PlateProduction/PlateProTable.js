@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, {useState, useEffect} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-
+import GetServices from '../../Services/get-services';
 
 const columns = [
   { id: 'sn', label: 'S/N', minWidth: 170 },
@@ -76,8 +76,9 @@ const rows = [
 ];
 
 export default function PlateProTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [productions, setProductions] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -87,6 +88,24 @@ export default function PlateProTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  useEffect(() =>{
+    GetServices.getAllProduction().then(
+      (response) => {
+        setProductions(response.data['production years']);
+        console.log(response.data)
+        
+      },
+      (error) => {
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+
+          setProductions(_content);
+      }
+    )
+  })
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>

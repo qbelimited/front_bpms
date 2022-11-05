@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, {useState, useEffect} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
-
+import GetServices from '../../Services/get-services';
 const columns = [
   { id: 'sn', label: 'S/N', minWidth: 30 },
   { id: 'timestamp', label: 'Time stamp', minWidth: 170 },
@@ -82,9 +82,10 @@ const rows = [
 ];
 
 function BIllsTable() {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [bill, setBill] = useState([]);
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
@@ -94,6 +95,23 @@ function BIllsTable() {
       setPage(0);
     };
   
+    useEffect(() =>{
+        GetServices.getAllBill().then(
+          (response) => {
+            setBill(response.data['All Bills']);
+            console.log(response.data)
+            
+          },
+          (error) => {
+            const _content =
+              (error.response && error.response.data) ||
+              error.message ||
+              error.toString();
+    
+              setBill(_content);
+          }
+        )
+    })
     return (
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer className=' bg-gray-50' sx={{ maxHeight: 440 }}>

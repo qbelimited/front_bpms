@@ -3,12 +3,12 @@ export default function authHeader() {
   
     if (user && user.token) {
       return {  
-        "Content-Type": "application/multipart/form-data",
+        
          Authorization: 'Bearer ' + user.token 
     };
     } else {
       return {
-        "Content-Type": "application/multipart/form-data",
+       
       };
     }
   }
