@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import SelectButton from '../SelectValue/SelectButton'
+import GetServices from '../../Services/get-services';
 const columns = [
     { id: 'sn', label: 'S/N', minWidth: 170 },
     { id: 'plateco', label: 'Plate colour', minWidth: 170 },
@@ -60,9 +61,10 @@ const columns = [
   ];
 
 function TableStorage() {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const items = ['Warehouse 1', 'Warehouse 2', 'Warehouse 3']
+    const [page, setPage] = useState(0);
+    const [warehouses, setWareHouses] = useState([])
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    
     const bool =true;
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -73,11 +75,31 @@ function TableStorage() {
       setPage(0);
     };
   
+    useEffect(() =>{
+          GetServices.getAllWarehouse().then(
+            (response) => {
+              setWareHouses(response.data['all warehouses']);
+              console.log(response.data['all warehouses'])
+              
+            },
+            (error) => {
+              const _content =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+      
+                setWareHouses(_content);
+            }
+          )
+    }, [])
+   
     return (
       <Paper className=' w-full overflow-hidden bg-gray-300'>
             <div className='ml-2 mt-3 mb-6 grid md:grid-cols-2'>
               <SelectButton 
-                items={items}
+                items={warehouses.map(warehouse =>{
+                  return warehouse.name
+                })}
                 bool={bool}
               />
             </div>

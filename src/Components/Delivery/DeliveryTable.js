@@ -101,7 +101,7 @@ export default function DeliveryTable() {
             setDeliveries(_content);
         }
       )
-    }, [deleveries])
+    }, [])
   
     const handleChangePage = (event, newPage) => {
       setPage(newPage);

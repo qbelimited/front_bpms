@@ -111,7 +111,7 @@ function BIllsTable() {
               setBill(_content);
           }
         )
-    })
+    }, [])
     return (
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer className=' bg-gray-50' sx={{ maxHeight: 440 }}>

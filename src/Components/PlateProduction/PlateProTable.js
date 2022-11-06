@@ -105,7 +105,7 @@ export default function PlateProTable() {
           setProductions(_content);
       }
     )
-  })
+  }, [])
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>

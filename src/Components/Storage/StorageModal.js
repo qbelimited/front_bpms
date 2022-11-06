@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Box from '@mui/material/Box';
 
 import Typography from '@mui/material/Typography';
@@ -6,7 +6,8 @@ import Modal from '@mui/material/Modal';
 import Button from '../SelectValue/Button'
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import TextBox from '../SelectValue/TextBox';
-import SelectButton from '../SelectValue/SelectButton';
+import postService from '../../Services/post-services';
+
 
 const style = {
     position: 'absolute',
@@ -21,8 +22,28 @@ const style = {
 
 function StorageModal({open, handleClose}) {
     const bool = true
-    const color = ['Accra', 'Kumasi', 'Capecoast']
-   
+  const [name, setName] = useState('')
+  const[loading, setLoading] = useState(false)
+
+   const handleSubmit = async () =>{
+    setLoading(true)
+     postService.addWareHouse(name).then(
+      (response) => {
+        console.log('testing --------' + response.data)
+        window.location.reload()
+      },
+      (error) => {
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+          setLoading(true);
+       
+      }
+    )
+  
+    
+   }
     return (
       <div>
         
@@ -36,7 +57,7 @@ function StorageModal({open, handleClose}) {
           <Box sx={style} className=' shadow-lg rounded-md'>
             <Typography id="modal-modal-title" className='' variant="h6" component="h2">
               <div className=' flex justify-between'>
-                  <h1 className=' text-gray-400'>Add new Warehouse</h1>
+                  <h1 className=' text-gray-400'>Add New Warehouse</h1>
                  <div onClick={handleClose}>
                  <HighlightOffOutlinedIcon />
                  </div> 
@@ -49,22 +70,17 @@ function StorageModal({open, handleClose}) {
                      label='Name'
                      type='text'
                      bool={bool}
+                     value={name}
+                     onChange={setName}
                   />
               </div>
-              <div>
-                  <TextBox 
-                    label='Location'
-                    type='text'
-                    bool={bool}
-                  />
-                  
-              </div>
+              
              
             </Typography>
             <div className=' mt-3'>
             <Button 
-              name='Add Warehouse'
-             
+              name={loading ? 'Sending data' :'Add Warehouse'}
+             onClick={handleSubmit}
             />
             </div>
             
