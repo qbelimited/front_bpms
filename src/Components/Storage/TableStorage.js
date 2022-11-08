@@ -7,30 +7,30 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import SelectButton from '../SelectValue/SelectButton'
 import GetServices from '../../Services/get-services';
+import WarehouseSelect from '../SelectValue/WarehouseSelect';
 const columns = [
-    { id: 'sn', label: 'S/N', minWidth: 170 },
-    { id: 'plateco', label: 'Plate colour', minWidth: 170 },
+    { id: 'sn', label: 'S/N', minWidth: 70 },
+    { id: 'plateco', label: 'Plate Number', minWidth: 70 },
     {
       id: 'small',
-      label: 'Small',
-      minWidth: 170,
-      align: 'right',
+      label: 'Plate colour',
+      minWidth: 70,
+      align: 'left',
       
     },
     {
       id: 'med',
-      label: 'Medium',
-      minWidth: 170,
-      align: 'right',
+      label: 'Plate size',
+      minWidth: 70,
+      align: 'left',
     
     },
     {
       id: 'big',
-      label: 'Big',
-      minWidth: 170,
-      align: 'right',
+      label: 'Storage',
+      minWidth: 70,
+      align: 'left',
      
     },
     
@@ -64,7 +64,8 @@ function TableStorage() {
     const [page, setPage] = useState(0);
     const [warehouses, setWareHouses] = useState([])
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    
+    const[warehouseId, setWarehouseId] = useState(1)
+    const[fetch, setFetch] = useState(false)
     const bool =true;
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -76,10 +77,12 @@ function TableStorage() {
     };
   
     useEffect(() =>{
-          GetServices.getAllWarehouse().then(
+          GetServices.getAllStorage(warehouseId).then(
             (response) => {
-              setWareHouses(response.data['all warehouses']);
-              console.log(response.data['all warehouses'])
+              
+              setWareHouses(response.data['all warehouse items']);
+              setFetch(true)
+              console.log(response.data['all warehouse items'])
               
             },
             (error) => {
@@ -91,18 +94,19 @@ function TableStorage() {
                 setWareHouses(_content);
             }
           )
-    }, [])
+    }, [warehouseId])
    
     return (
       <Paper className=' w-full overflow-hidden bg-gray-300'>
             <div className='ml-2 mt-3 mb-6 grid md:grid-cols-2'>
-              <SelectButton 
-                items={warehouses.map(warehouse =>{
-                  return warehouse.name
-                })}
+              <WarehouseSelect 
+                value={warehouseId}
+                onChange={setWarehouseId}
                 bool={bool}
+
               />
             </div>
+            
         <TableContainer className=' bg-gray-100' sx={{ maxHeight: 440 }}>
           <Table   stickyHeader aria-label="sticky table">
             <TableHead  className=' bg-gray-100'>
@@ -119,29 +123,33 @@ function TableStorage() {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>
-              {rows
+            {fetch && warehouses.length > 0 ? <>
+              <TableBody>
+              {warehouses
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
                       <TableRow
-                key={row.sn}
+                key={row.number_plate}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.sn}
+                  {row.number_plate}
                 </TableCell>
-                <TableCell align="left">{row.plateco}</TableCell>
-                <TableCell align="right">{row.small}</TableCell>
-                <TableCell align="right">{row.med}</TableCell>
-                <TableCell align="right">{row.big}</TableCell>
+                <TableCell align="left">{row.number_plate}</TableCell>
+                <TableCell align="left">{row.color}</TableCell>
+                <TableCell align="left">{row.dimension}</TableCell>
+                <TableCell align="left">{row.storage}</TableCell>
                 
               </TableRow>
                   );
                 })}
             </TableBody>
+              </> : null}
+            
           </Table>
         </TableContainer>
+       
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
@@ -151,6 +159,7 @@ function TableStorage() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        {warehouses.length === 0 && <p className=' text-red-800 text-center'>No data found</p>}
       </Paper>
     );
 }

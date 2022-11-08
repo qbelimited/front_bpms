@@ -31,7 +31,7 @@ function PlatesSettings() {
             <p className=' text-gray-400 text-start'>Plate settings page - Please edit to fit proper descriprion of the page</p>
 
         </div>
-        <div className=' mt-5 grid grid-cols-5 gap-3'>
+        <div className=' mt-5 grid grid-cols-2 md:grid-cols-5 gap-3'>
             <AddsButtion 
                 name='Add plate color'
                 onClick={handleOpen1}

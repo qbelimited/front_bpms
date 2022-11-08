@@ -12,7 +12,7 @@ function SearchButton({value, onChange, label}) {
             id="outlined-adornment-weight"
             value={value}
             placeholder={label}
-            onChange={onChange}
+            onChange={(e) =>onChange(e.target.value)}
             endAdornment={<InputAdornment position="end">
                 <SearchOutlinedIcon />
             </InputAdornment>}

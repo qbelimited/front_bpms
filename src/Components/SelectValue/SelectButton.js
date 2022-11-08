@@ -17,7 +17,7 @@ function SelectButton({value, onChange, items, bool}) {
                 id="demo-simple-select"
                 value={value}
                 label="Age"
-                onChange={onChange}
+                onChange={(e) =>onChange(e.target.value)}
                 >
                 {items.map((i) =>(
                     <MenuItem key={i} value={i}>{i}</MenuItem>

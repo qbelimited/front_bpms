@@ -1,12 +1,13 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Box from '@mui/material/Box';
-
+import swal from 'sweetalert';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Button from '../SelectValue/Button'
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import TextBox from '../SelectValue/TextBox';
-import SelectButton from '../SelectValue/SelectButton';
+import postService from '../../Services/post-services';
+
 
 const style = {
     position: 'absolute',
@@ -20,8 +21,39 @@ const style = {
   };
 function CompanyCreateModal({open, handleClose}) {
     const bool = true
-    const color = ['Accra', 'Kumasi', 'Capecoast']
-   
+    const [loading, setLoading] = useState(false)
+    const [cName, setCName] = useState('')
+    const [location, setLocation] = useState('')
+    const [phone, setPhone] = useState('')
+    const [email, setEmail] = useState('')
+
+    const handleSubmit = (e)=>{
+      e.preventDefault()
+      setLoading(true)
+      postService.addCompany(cName, location, phone,email).then(
+        (response) => {
+          console.log(response.data)
+          swal("New company Added Successfully")
+            .then((value) => {
+              window.location.reload()
+            });
+          
+        },
+        (error) => {
+          const _content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+            return  swal(_content)
+            .then((value) => {
+              window.location.reload()
+            });
+           
+        }
+      )
+      
+    }
+
     return (
       <div>
         
@@ -41,6 +73,7 @@ function CompanyCreateModal({open, handleClose}) {
                  </div> 
               </div>
             </Typography>
+           <form onSubmit={handleSubmit}>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               <div className=' mb-2'>
                  
@@ -48,16 +81,18 @@ function CompanyCreateModal({open, handleClose}) {
                      label='Comapany name'
                      type='text'
                      bool={bool}
+                     value={cName}
+                     onChange={setCName}
                   />
               </div>
               <div>
-                  <label className=' block mb-1'>Location</label>
-                  <div className=' w-full'>
-                  <SelectButton 
-                      items={color}
-                      bool={true}
+              <TextBox 
+                     label='Location'
+                     type='text'
+                     bool={bool}
+                     value={location}
+                     onChange={setLocation}
                   />
-                  </div>
                   
               </div>
               <div className=' mt-3 grid grid-cols-3 gap-4'>
@@ -66,6 +101,8 @@ function CompanyCreateModal({open, handleClose}) {
                           label='Phone'
                           type='tel'
                           bool={bool}
+                          value={phone}
+                          onChange={setPhone}
                       />
                   </div>
                   
@@ -76,6 +113,8 @@ function CompanyCreateModal({open, handleClose}) {
                           label='Email'
                           type='email'
                           bool={bool}
+                          value={email}
+                          onChange={setEmail}
                       />
                   </div>
                   </div>
@@ -83,10 +122,11 @@ function CompanyCreateModal({open, handleClose}) {
             </Typography>
             <div className=' mt-3'>
             <Button 
-              name='Update company'
+              name={loading? 'Loading...' :'Update company'}
              
             />
             </div>
+            </form>
             
           </Box>
         </Modal>

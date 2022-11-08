@@ -1,4 +1,4 @@
-import  React, {useState} from 'react';
+import  React, {useState, useEffect, useMemo} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,6 +12,9 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import { styled } from '@mui/material/styles';
 import SearchButton from '../SelectValue/SearchButton'
 import CompanyUpdateModal from './CompanyUpdateModal';
+import getServices from '../../Services/get-services';
+import ActivateCompany from './ActivateCompany';
+import DeactivateCompany from './DeactivateCompany';
 const columns = [
   { id: 'name', label: 'Company name', minWidth: 30 },
   { id: 'loc', label: 'Location', minWidth: 100 },
@@ -72,8 +75,29 @@ const rows = [
 function CompanyManageTable() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const[companies, setCompanies] = useState([])
+    const [search, setSearch] = useState('')
     const [open, setOpen] = useState(false);
-    const handleOpen = (() => setOpen(true));
+    const[name, setName] = useState('')
+    const [open1, setOpen1] = useState(false)
+    const [open2, setOpen2] = useState(false)
+    const [location, setLocation] = useState('')
+    const [phone, setPhone] = useState('')
+    const [email, setEmail] = useState('')
+    const[ status, setStatus] = useState('')
+    const [id, setId] = useState('')
+    const handleOpen1 = () =>{
+      setOpen1(true)
+    }
+    const handleClose1 = () =>{
+      setOpen1(false)
+    }
+    const handleOpen2 = () =>{
+      setOpen2(true)
+    }
+    const handleClose2 = () =>{
+      setOpen2(false)
+    }
     const handleClose = (() => setOpen(false));
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -83,16 +107,67 @@ function CompanyManageTable() {
       setRowsPerPage(+event.target.value);
       setPage(0);
     };
+
+    useEffect(()=>{
+        getServices.getAllCompany().then(
+          (response) => {
+              
+            setCompanies(response.data['companies']);
+            
+            console.log(response.data['companies'])
+            
+          },
+          (error) => {
+            const _content =
+              (error.response && error.response.data) ||
+              error.message ||
+              error.toString();
+    
+              setCompanies(_content);
+          }
+        )
+    },[])
   
+      const searchCompany = useMemo(() => {
+        let comp = companies;
+
+        if (search) {
+            comp = comp.filter(
+                comment =>
+                    comment.name.toLowerCase().includes(search.toLowerCase()) ||
+                    comment.location.toLowerCase().includes(search.toLowerCase()) 
+            );
+        }
+
+       
+    }, [companies, search,]);
     return (
         <>
+        <DeactivateCompany 
+          open={open2}
+          id={id}
+          handleClose={handleClose2}
+        />
+        <ActivateCompany 
+          open={open1}
+          handleClose={handleClose1}
+          id={id}
+        />
         <CompanyUpdateModal 
             open={open}
             handleClose={handleClose}
+            name={name}
+            phone={phone}
+            email={email}
+            status={status}
+            id={id}
+            location={location}
         />
         <div className='mb-10'>
             <SearchButton
                 label='Search for a company'
+                value={search}
+                onChange={setSearch}
              />
         </div>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -113,22 +188,36 @@ function CompanyManageTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {companies
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
                       <TableRow
-                key={row.name}
+                key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell align="left">{row.loc}</TableCell>
+                <TableCell align="left">{row.location}</TableCell>
                 <TableCell align="center">{row.phone}</TableCell>
                 <TableCell align="center">{row.email}</TableCell>
-                <TableCell align="left">{row.phone === 90 ? <span className=' text-blue-600 cursor-pointer' onClick={handleOpen}>Update <RemoveCircleOutlineOutlinedIcon sx={{ color: 'red'}}/> </span> :
-                <span className=' text-blue-600 cursor-pointer' onClick={handleOpen}>Update <AddCircleOutlineOutlinedIcon sx={{ color: 'green'}}/> </span>
+                <TableCell align="center"> <span className=' text-blue-600 cursor-pointer' onClick={ (() => {
+                      setPhone(row.phone)
+                      setLocation(row.location)
+                      setEmail(row.email)
+                      setStatus(row.status)
+                      setId(row.id)
+                      setName(row.name)
+                      setOpen(true)
+                    })}>Update</span>{row.status === '1' ?  <RemoveCircleOutlineOutlinedIcon onClick={ (() => {
+                      setId(row.id)
+                      setOpen2(true)
+                    })} sx={{ color: 'red'}}/>  :
+                      <AddCircleOutlineOutlinedIcon onClick={ (() => {
+                      setId(row.id)
+                      setOpen1(true)
+                    })} sx={{ color: 'green'}}/> 
                 }</TableCell>
               </TableRow>
                   );
@@ -145,9 +234,12 @@ function CompanyManageTable() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        {companies.length === 0 && <p className=' text-center text-red-900'>No Data Found</p>}
       </Paper>
       </>
     );
 }
 
 export default CompanyManageTable
+
+

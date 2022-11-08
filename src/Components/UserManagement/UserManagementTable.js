@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,6 +15,7 @@ import SearchButton from '../SelectValue/SearchButton';
 import AddsButton from '../SelectValue/AddButtion'
 import UserUpdateModal from './UserUpdateModal';
 import UserCreateModal from './UserCreateModal';
+import getServices from '../../Services/get-services';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -50,6 +51,7 @@ function UserManagementTable() {
     const [page, setPage] =useState(0);
     const [rowsPerPage, setRowsPerPage] =useState(10);
     const [open, setOpen] = useState(false)
+    const [users, setUsers] = useState([])
     const handleOpen = (() => setOpen(true))
     const handleClose = (() => setOpen(false))
     const [open1, setOpen1] = useState(false)
@@ -64,6 +66,23 @@ function UserManagementTable() {
       setPage(0);
     };
   
+    useEffect(() =>{
+       getServices.getAllUsers().then(
+        (response) => {
+          setUsers(response.data['users']['data']);
+          console.log(response.data)
+          
+        },
+        (error) => {
+          const _content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+  
+            setUsers(_content);
+        }
+       )
+    },  [])
     return (
         <>
         <UserUpdateModal
@@ -92,32 +111,30 @@ function UserManagementTable() {
             <TableHead >
               <TableRow >
               <StyledTableCell>User name</StyledTableCell>
-            <StyledTableCell align="left">Password <ToggleOffOutlinedIcon sx={{color: 'rgba(50, 64, 84, 0.5)'}}/></StyledTableCell>
             <StyledTableCell align="center">Phone</StyledTableCell>
-            <StyledTableCell align="right">Email</StyledTableCell>
+            <StyledTableCell align="center">Email</StyledTableCell>
             <StyledTableCell align="right">Company name</StyledTableCell>
-            <StyledTableCell align="right">User type</StyledTableCell>
-            <StyledTableCell align="right">Action</StyledTableCell>
+            <StyledTableCell align="center">User type</StyledTableCell>
+            <StyledTableCell align="center">Action</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {users
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
                       <TableRow
-                key={row.sn}
+                key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.sn}
+                  {row.fname} {row.mname}
                 </TableCell>
-                <TableCell align="left">{row.mode}</TableCell>
-                <TableCell align="center">{row.quan}</TableCell>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="right">{row.time}</TableCell>
-                <TableCell align="right">{row.sentby}</TableCell>
-                <TableCell align="left">{row.sentby === 'Joshue' ? <span onClick={handleOpen} className=' text-blue-600 cursor-pointer' >Update <RemoveCircleOutlineOutlinedIcon sx={{ color: 'red'}}/> </span> :
+                <TableCell align="left">{row.phone1}</TableCell>
+                <TableCell align="center">{row.email}</TableCell>
+                <TableCell align="center">{row.company_id}</TableCell>
+                <TableCell align="center">{row.type}</TableCell>
+                <TableCell align="center">{row.status === '1' ? <span onClick={handleOpen} className=' text-blue-600 cursor-pointer' >Update <RemoveCircleOutlineOutlinedIcon sx={{ color: 'red'}}/> </span> :
                 <span onClick={handleOpen} className=' text-blue-600 cursor-pointer' >Update <AddCircleOutlineOutlinedIcon sx={{ color: 'green'}}/> </span>
                 }</TableCell>              </TableRow>
                   );

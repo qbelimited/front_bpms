@@ -7,6 +7,7 @@ import Button from '../SelectValue/Button'
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import TextBox from '../SelectValue/TextBox';
 import postService from '../../Services/post-services';
+import swal from 'sweetalert';
 
 
 const style = {
@@ -24,21 +25,28 @@ function StorageModal({open, handleClose}) {
     const bool = true
   const [name, setName] = useState('')
   const[loading, setLoading] = useState(false)
-
+    
    const handleSubmit = async () =>{
     setLoading(true)
      postService.addWareHouse(name).then(
       (response) => {
         console.log('testing --------' + response.data)
-        window.location.reload()
+        setName('')
+        swal("Warehouse added successfully")
+        .then(() => {
+         window.location.reload()
+       });
       },
       (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-          setLoading(true);
-       
+        
+          swal("Warehouse name already exist!!!")
+           .then(() => {
+            window.location.reload()
+          });
+         
+         
+          setName('')
+         
       }
     )
   

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, {useState, useEffect} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,6 +10,9 @@ import TableRow from '@mui/material/TableRow';
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import { styled } from '@mui/material/styles';
+import getServices from '../../Services/get-services';
+import ActivateColor from './ActivateColor';
+import DeactivateColor from './DeactiveColor';
 
 const columns = [
   { id: 'sn', label: 'S/N', minWidth: 30 },
@@ -48,9 +51,16 @@ const rows = [
 
 
 function PlateColorTable() {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [colors, setColors] = useState([])
+    const [open, setOpen] = useState(false)
+    const [open1, setOpen1] = useState(false)
+    const [id, setId] = useState('')
+    const handleOpen = (() => setOpen(true))
+    const handleClose = (() => setOpen(false))
+    const handleOpen1 = (() => setOpen1(true))
+    const handleClose1 = (() => setOpen1(false))
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
@@ -59,8 +69,36 @@ function PlateColorTable() {
       setRowsPerPage(+event.target.value);
       setPage(0);
     };
+  useEffect(() =>{
+      getServices.getAllColor().then(
+        (response) => {
+          setColors(response.data['platecolors']);
+          console.log(response.data)
+          
+        },
+        (error) => {
+          const _content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
   
+            setColors(_content);
+        }
+      )
+  },[])
+
     return (
+      <>
+       <ActivateColor 
+         open={open}
+         handleClose={handleClose}
+         id={id}
+       />
+       <DeactivateColor 
+        open={open1}
+        handleClose={handleClose1}
+        id={id}
+       />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer className=' bg-gray-50' sx={{ maxHeight: 440 }}>
           <Table   stickyHeader aria-label="sticky table">
@@ -79,19 +117,27 @@ function PlateColorTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {colors
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
                       <TableRow
-                key={row.sn}
+                key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.sn}
+                  {row.color}
                 </TableCell>
-                <TableCell align="right">{row.phone === 90 ? <span className=' text-blue-600 cursor-pointer' >{row.color} <RemoveCircleOutlineOutlinedIcon sx={{ color: 'red'}}/> </span> :
-                <span className=' text-blue-600 cursor-pointer' >{row.color} <AddCircleOutlineOutlinedIcon sx={{ color: 'green'}}/> </span>
+                <TableCell align="right"> <span className=' text-blue-600 cursor-pointer' >Update 
+                </span>{row.status === '1' ?  <RemoveCircleOutlineOutlinedIcon onClick={ (() => {
+                      setId(row.id)
+                      setOpen1(true)
+                    })}
+                 sx={{ color: 'red'}}/>  :
+                 <AddCircleOutlineOutlinedIcon onClick={ (() => {
+                      setId(row.id)
+                      setOpen(true)
+                    })} sx={{ color: 'green'}}/> 
                 }</TableCell>
               </TableRow>
                   );
@@ -109,6 +155,7 @@ function PlateColorTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      </>
     );
 }
 

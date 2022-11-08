@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Box from '@mui/material/Box';
 
 import Typography from '@mui/material/Typography';
@@ -6,7 +6,8 @@ import Modal from '@mui/material/Modal';
 import Button from '../SelectValue/Button'
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import TextBox from '../SelectValue/TextBox';
-import SelectButton from '../SelectValue/SelectButton';
+import SelectPlate from './selectPlate';
+import SelectColor from './SelectColor';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -19,8 +20,11 @@ const style = {
   };
 function EmbosingModal({open, handleClose}) {
     const bool = true
-    const color = ['red', 'blue', 'orange']
-    const ava = ['Available plate 1', 'Available plate 2', 'Available plate 4']
+   
+    const[colors, setColors] = useState('')
+    const [plate, setPlate] = useState('')
+    const [text, setText] = useState('')
+   
     return (
       <div>
         
@@ -43,17 +47,19 @@ function EmbosingModal({open, handleClose}) {
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               <div className=' mb-2'>
                   <label className=' block mb-1'>Select available plates</label>
-                  <SelectButton 
-                      items={ava}
+                  <SelectPlate
                       bool={true}
+                      value={plate}
+                      onChange={setPlate}
                   />
               </div>
               <div>
                   <label className=' block mb-1'>Select a colour</label>
                   <div className=' w-full'>
-                  <SelectButton 
-                      items={color}
-                      bool={true}
+                  <SelectColor
+                   bool={bool}
+                   value={colors}
+                   onChange={setColors}
                   />
                   </div>
                   
@@ -64,6 +70,8 @@ function EmbosingModal({open, handleClose}) {
                           label='Embossing text'
                           type='text'
                           bool={bool}
+                          onChange={setText}
+                          value={text}
                       />
                   </div>
                   

@@ -10,15 +10,16 @@ import TableRow from '@mui/material/TableRow';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import { styled } from '@mui/material/styles';
 import GetServices from '../../Services/get-services';
+import UpdateDeliveryStatus from './UpdateDeliveryStatus';
 
 const columns = [
   { id: 'sn', label: 'S/N', minWidth: 30 },
-  { id: 'mode', label: 'Mode?', minWidth: 100 },
+  { id: 'mode', label: 'Plate number', minWidth: 170 },
   {
     id: 'quan',
     label: 'Quantity',
-    minWidth: 100,
-    align: 'right',
+    minWidth: 70,
+    align: 'center',
     
   },
   {
@@ -38,14 +39,28 @@ const columns = [
   {
     id: 'sentby',
     label: 'Sent by',
-    minWidth: 100,
+    minWidth: 150,
     align: 'right',
    
   },
   {
-    id: 'invoice',
-    label: 'Invoice',
+    id: 'cost',
+    label: 'Cost',
+    minWidth: 70,
+    align: 'right',
+   
+  },
+  {
+    id: 'status',
+    label: 'Status',
     minWidth: 170,
+    align: 'right',
+   
+  },
+  {
+    id: 'inv',
+    label: 'Invoice',
+    minWidth: 70,
     align: 'right',
    
   },
@@ -60,30 +75,16 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
   }));
 
-function createData(sn, mode, quan, name, time, sentby, invoice) {
-  
-  return { sn, mode, quan, name, time, sentby, invoice};
-}
 
-const rows = [
-  createData('01', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('02', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('03', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('04', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('05', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('06', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('07', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('08', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('09', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('10', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('11', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-  createData('12', 'Received', 50, 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua', 'View...'),
-];
+
 
 export default function DeliveryTable() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const[deleveries, setDeliveries] = useState([])
+    const[deliveries, setDeliveries] = useState([]);
+    const [id, setId] = useState('')
+    const [open, setOpen] = useState(false)
+    const handleClose = (() => setOpen(false))
 
     useEffect(() =>{
       GetServices.getAllDeliveries().then(
@@ -113,7 +114,14 @@ export default function DeliveryTable() {
     };
   
     return (
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <>
+      <UpdateDeliveryStatus
+        id={id}
+        open={open}
+        handleClose={handleClose}
+       />
+
+      <Paper className=' w-full overflow-x-auto overflow-hidden'>
         <TableContainer className=' bg-gray-50' sx={{ maxHeight: 440 }}>
           <Table   stickyHeader aria-label="sticky table">
             <TableHead >
@@ -131,22 +139,30 @@ export default function DeliveryTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {deliveries
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+                .map((row, index) => {
                   return (
                       <TableRow
-                key={row.sn}
+                key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.sn}
+                  {index + 1}
                 </TableCell>
-                <TableCell align="left">{row.mode}</TableCell>
-                <TableCell align="center">{row.quan}</TableCell>
+                <TableCell align="left">{row.number_plate}</TableCell>
+                <TableCell align="center">{row.quantity}</TableCell>
                 <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="right">{row.time}</TableCell>
-                <TableCell align="right">{row.sentby}</TableCell>
+                <TableCell align="center">{row.date}</TableCell>
+                <TableCell align="right">{row.sent_by}</TableCell>
+                <TableCell align="right">{row.cost}</TableCell>
+               
+                <TableCell align="right">{row.delivered === '1'?<span className=' bg-suc-color text-suc-text rounded-lg p-3'>Delivered</span>: 
+                <span onClick={(()=>{
+                  setOpen(true)
+                  setId(row.id)
+                })} className=' bg-inpro-co text-inpro-text rounded-lg p-3'>Pending</span>
+                }</TableCell>
                 <TableCell align="right"><InsertDriveFileOutlinedIcon sx={{color: 'blue'}}/><span className=' text-blue-700'>{row.invoice}</span></TableCell>
               </TableRow>
                   );
@@ -157,12 +173,13 @@ export default function DeliveryTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={deliveries.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      </>
     );
 }
