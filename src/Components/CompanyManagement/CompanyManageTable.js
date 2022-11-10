@@ -1,4 +1,4 @@
-import  React, {useState, useEffect, useMemo} from 'react';
+import  React, {useState, useEffect, } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -51,25 +51,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
   }));
 
-function createData( name, loc, phone, email, action) {
-  
-  return { name, loc, phone, email, action};
-}
-
-const rows = [
-  createData('ABC Limited', 'Received', 50, 'XYZ Limited'),
-  createData('ABC Limitedu', 'Received', 50, 'XYZ Limited'),
-  createData('ABC Limitedp', 'Received', 90, 'XYZ Limited'),
-  createData('ABC iLimited', 'Received', 50, 'XYZ Limited'),
-  createData('ABC Limited0', 'Received', 50, 'XYZ Limited'),
-  createData('ABC Limited8', 'Received', 90, 'XYZ Limited'),
-  createData('ABC Limited6', 'Received', 50, 'XYZ Limited'),
-  createData('ABC Limited-', 'Received', 50, 'XYZ Limited'),
-  createData('ABC Limitekd', 'Received', 90, 'XYZ Limited'),
-  createData('ABC Limiteod', 'Received', 50, 'XYZ Limited'),
-  createData('ABC Limitjed', 'Received', 50, 'XYZ Limited'),
-  createData('ABC Limitedn', 'Received', 50, 'XYZ Limited'),
-];
 
 
 function CompanyManageTable() {
@@ -86,15 +67,11 @@ function CompanyManageTable() {
     const [email, setEmail] = useState('')
     const[ status, setStatus] = useState('')
     const [id, setId] = useState('')
-    const handleOpen1 = () =>{
-      setOpen1(true)
-    }
+    const[ value, setValue] = useState('')
     const handleClose1 = () =>{
       setOpen1(false)
     }
-    const handleOpen2 = () =>{
-      setOpen2(true)
-    }
+    
     const handleClose2 = () =>{
       setOpen2(false)
     }
@@ -128,19 +105,21 @@ function CompanyManageTable() {
         )
     },[])
   
-      const searchCompany = useMemo(() => {
-        let comp = companies;
-
-        if (search) {
-            comp = comp.filter(
-                comment =>
-                    comment.name.toLowerCase().includes(search.toLowerCase()) ||
-                    comment.location.toLowerCase().includes(search.toLowerCase()) 
-            );
-        }
-
-       
-    }, [companies, search,]);
+    const filteredCompany = companies.filter(
+      person => {
+        return (
+          person
+          .name
+          .toLowerCase()
+          .includes(value.toLowerCase()) ||
+          person
+          .location
+          .toLowerCase()
+          .includes(value.toLowerCase())
+        );
+      }
+    );
+      
     return (
         <>
         <DeactivateCompany 
@@ -166,8 +145,8 @@ function CompanyManageTable() {
         <div className='mb-10'>
             <SearchButton
                 label='Search for a company'
-                value={search}
-                onChange={setSearch}
+               
+                onChange={setValue}
              />
         </div>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -188,7 +167,7 @@ function CompanyManageTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {companies
+              {filteredCompany
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
@@ -228,13 +207,13 @@ function CompanyManageTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={filteredCompany.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-        {companies.length === 0 && <p className=' text-center text-red-900'>No Data Found</p>}
+        {filteredCompany.length === 0 && <p className=' text-center text-red-900'>No Data Found</p>}
       </Paper>
       </>
     );

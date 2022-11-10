@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, {useState, useEffect} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,26 +7,27 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import { styled } from '@mui/material/styles';
+import getServices from '../../Services/get-services';
 
 const columns = [
   { id: 'sn', label: 'S/N', minWidth: 30 },
-  { id: 'mode', label: 'Plate size', minWidth: 100 },
+  { id: 'mode', label: 'Description', minWidth: 100 },
   {
     id: 'quan',
-    label: 'Width',
+    label: 'Dimension',
     minWidth: 100,
-    align: 'right',
+    align: 'Center',
     
   },
   {
-    id: 'name',
-    label: 'Height',
-    minWidth: 170,
-    align: 'center',
-  
+    id: 'quan',
+    label: 'Code',
+    minWidth: 60,
+    align: 'right',
+    
   },
+  
   ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -38,30 +39,29 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
   }));
 
-function createData(sn, mode, quan, name) {
-  
-  return { sn, mode, quan, name};
-}
 
-const rows = [
-  createData('01', 'Received', 50, 'XYZ Limited'),
-  createData('02', 'Received', 50, 'XYZ Limited'),
-  createData('03', 'Received', 50, 'XYZ Limited'),
-  createData('04', 'Received', 50, 'XYZ Limited'),
-  createData('05', 'Received', 50, 'XYZ Limited'),
-  createData('06', 'Received', 50, 'XYZ Limited'),
-  createData('07', 'Received', 50, 'XYZ Limited'),
-  createData('08', 'Received', 50, 'XYZ Limited'),
-  createData('09', 'Received', 50, 'XYZ Limited'),
-  createData('10', 'Received', 50, 'XYZ Limited'),
-  createData('11', 'Received', 50, 'XYZ Limited'),
-  createData('12', 'Received', 50, 'XYZ Limited'),
-];
 
 function PlateSizeTable() {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [size, setSize] = useState([])
+    useEffect(()=>{
+        getServices.getAllPlateDimension().then(
+          (response) => {
+            setSize(response.data['platedimensions']);
+            console.log(response.data)
+            
+          },
+          (error) => {
+            const _content =
+              (error.response && error.response.data) ||
+              error.message ||
+              error.toString();
+    
+              setSize(_content);
+          }
+        )
+    },[])
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
@@ -90,20 +90,21 @@ function PlateSizeTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {size
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+                .map((row, index) => {
                   return (
                       <TableRow
-                key={row.sn}
+                key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.sn}
+                  {index + 1}
                 </TableCell>
-                <TableCell align="left">{row.mode}</TableCell>
-                <TableCell align="center">{row.quan}</TableCell>
-                <TableCell align="center">{row.name}</TableCell>
+                <TableCell align="left">{row.description}</TableCell>
+                <TableCell align="left">{row.dimensions}</TableCell>
+                <TableCell align="right">{row.code}</TableCell>
+                
               </TableRow>
                   );
                 })}
@@ -113,12 +114,13 @@ function PlateSizeTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={size.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        {size.length === 0 && <p className=' text-center text-red-800'>No Data Found</p>}
       </Paper>
     );
 }

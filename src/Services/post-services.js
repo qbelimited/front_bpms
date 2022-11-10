@@ -95,6 +95,14 @@ const confirmDelivery = (id) =>{
     return axios.post(API_URL + '/api/npms/v1/confirm-delivery', formData, { headers: authHeader() } );
 }
 
+const sendHelp = (priority, subject, message) =>{
+    const formData = new FormData();
+    formData.append("priority", priority);
+    formData.append("subject", subject);
+    formData.append("message", message);
+    return axios.post(API_URL + '/api/npms/v1/help', formData, { headers: authHeader() } );
+}
+
 const postService = {
     addWareHouse,
     makePayment,
@@ -107,7 +115,8 @@ const postService = {
     deactivateColor,
     addColor,
     makeDelivery,
-    confirmDelivery
+    confirmDelivery,
+    sendHelp
 }
 
 export default postService;

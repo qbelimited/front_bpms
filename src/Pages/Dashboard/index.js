@@ -1,22 +1,19 @@
 import  React, {useState} from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import PropTypes from 'prop-types';
+import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
+import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import List from '@mui/material/List';
 
-import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import CardTravelOutlinedIcon from '@mui/icons-material/CardTravelOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -44,93 +41,17 @@ import AppSettings from '../Settings/AppSettings';
 import Aboutbpms from '../Settings/Aboutbpms';
 import HelpSupport from '../Settings/HelpSupport';
 import Logout from '../Logout';
-
 const drawerWidth = 240;
 
-const openedMixin = (theme) => ({
-  width: drawerWidth,
-  backgroundColor: '#F3F3F399',
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
 
-const closedMixin = (theme) => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  backgroundColor: '#F3F3F399',
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
- 
-  justifyContent: 'flex-end',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
+function Dashboard(props) {
+    const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  
-  backgroundColor:'white',
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    backgroundColor:'white',
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    backgroundColor: 'red',
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
-  }),
-);
-
-export default function MiniDrawer() {
-  const theme = useTheme();
-  const [open, setOpen] = useState(true);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   const [sidebar, setSidebar] = useState([
     {
         name: 'Dashboard',
@@ -283,22 +204,84 @@ export default function MiniDrawer() {
         id: 'signout',
     },
   ])
+  const drawer = (
+    <div>
+     <div className=' pt-5 md:ml-6 pb-2'>
+        <img src={Logo} alt='logo' className=' mx-auto'/>
+          </div>
+     
+      <List>
+          {sidebar.map((text, index) => (
 
+            <ListItem key={text} disablePadding sx={{ display: 'block' }} onClick={(e) => {
+                        let sideBar = [...sidebar];
+                        let obj = sideBar[index];
+                        obj.isOpen = !obj.isOpen;
+                        setSidebar(sideBar);
+                      }}>
+                      <NavLink to={text.link}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent:  'initial' ,
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr:  3 ,
+                    justifyContent: 'center',
+                  }}
+                >
+                  {text.icon}
+                </ListItemIcon>
+                
+                <ListItemText className={`${text.color}`} primary={text.name} sx={{ opacity:  1  }} />
+                {text.isMenu  ? <img src={Arrow} alt='arrow' /> : null }
+
+              </ListItemButton>
+              </NavLink>
+              {text.isMenu  && text.isOpen ? text.subMenu.map((i) =>(
+                
+                <p key={i}  className=' pl-16 text-start py-1 text-gray-400'><NavLink to={i.link}>{i.name}</NavLink></p>
+                
+                  )) : null}
+            </ListItem>
+            
+          ))}
+          
+        </List>
+        <p className=' flex  justify-center text-xs mt-20'>©️ 2022 - BPMS Powered by <span className=' text-the-color'>Ten-io</span></p>
+     
+    </div>
+  );
+
+  const container = window !== undefined ? () => window().document.body : undefined;
   return (
+    <div>
+   
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar className=' bg-gray-400' position="fixed" open={open}>
+      <AppBar
+        position="fixed"
+        elevation={1}
+        sx={{
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+         backgroundColor: 'white',
+          
+        
+        }}
+      >
       <div className=' flex justify-between'>
       <Toolbar>
-          <IconButton
+      <IconButton
             
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
             edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
@@ -312,68 +295,47 @@ export default function MiniDrawer() {
                     </Link>
                     </div>
                  </div>
-        
-        
       </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-        <Typography variant="h6" noWrap component="div">
-        <img src={Logo} alt='logo' className=' mx-auto'/>
-          </Typography>
-        
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: 'rgba(243, 243, 243, 0.9)' },
+          }}
+        >
+          {drawer}
           
-        </DrawerHeader>
-       
-        <List>
-          {sidebar.map((text, index) => (
-
-            <ListItem key={text} disablePadding sx={{ display: 'block' }} onClick={(e) => {
-                        let sideBar = [...sidebar];
-                        let obj = sideBar[index];
-                        obj.isOpen = !obj.isOpen;
-                        setSidebar(sideBar);
-                      }}>
-                      <NavLink to={text.link}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {text.icon}
-                </ListItemIcon>
-                
-                <ListItemText className={`${text.color}`} primary={text.name} sx={{ opacity: open ? 1 : 0 }} />
-                {text.isMenu && open ? <img src={Arrow} alt='arrow' /> : null }
-
-              </ListItemButton>
-              </NavLink>
-              {text.isMenu && open && text.isOpen ? text.subMenu.map((i) =>(
-                
-                <p key={i}  className=' pl-16 text-start py-1 text-gray-400'><NavLink to={i.link}>{i.name}</NavLink></p>
-                
-                  )) : null}
-            </ListItem>
-            
-          ))}
-        </List>
-        
-       {open && <p className=' flex  justify-center text-xs mt-20'>©️ 2022 - BPMS Powered by <span className=' text-the-color'>Ten-io</span> </p>}
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-            <Routes>
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+      >
+        <Toolbar />
+      <div className=' w-full' >
+      <Routes>
                 <Route path='/dashboard' element={<DashboardMain />}/>
                 <Route path='/user' element={<UserPage />} />
                 <Route path='/plateProduction' element={<PlateProduction />} />
@@ -390,7 +352,19 @@ export default function MiniDrawer() {
                 <Route path='/helpandsupport' element= {<HelpSupport />} />
                 <Route path='/logout' element={<Logout />} />
             </Routes>
+      </div>
+        
       </Box>
     </Box>
-  );
+    </div>
+  )
 }
+Dashboard.propTypes = {
+    /**
+     * Injected by the documentation to work in an iframe.
+     * You won't need it on your project.
+     */
+    window: PropTypes.func,
+  };
+
+export default Dashboard

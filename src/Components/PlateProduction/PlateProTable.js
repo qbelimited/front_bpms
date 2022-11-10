@@ -10,70 +10,61 @@ import TableRow from '@mui/material/TableRow';
 import GetServices from '../../Services/get-services';
 
 const columns = [
-  { id: 'sn', label: 'S/N', minWidth: 170 },
-  { id: 'date', label: 'Date', minWidth: 100 },
+  { id: 'sn', label: 'S/N', minWidth: 70 },
+  { id: 'date',  align: 'center', label: 'Date', minWidth: 170 },
   {
     id: 'batch',
     label: 'Batch No.',
-    minWidth: 170,
-    align: 'right',
+    minWidth: 100,
+    align: 'center',
     
   },
   {
     id: 'quan',
     label: 'Quantity',
-    minWidth: 170,
+    minWidth: 100,
     align: 'right',
   
   },
   {
     id: 'starttime',
-    label: 'Start time',
-    minWidth: 170,
-    align: 'right',
+    label: 'Serial starts',
+    minWidth: 100,
+    align: 'center',
    
   },
   {
     id: 'eta',
-    label: 'ETA',
-    minWidth: 170,
-    align: 'right',
+    label: 'Production week',
+    minWidth: 100,
+    align: 'center',
    
   },
   {
     id: 'sta',
-    label: 'Status',
-    minWidth: 170,
+    label: 'Production year',
+    minWidth: 100,
     align: 'right',
    
   },
+  {
+    id: 'dim',
+    label: 'Dimension',
+    minWidth: 100,
+    align: 'right',
+   
+  },
+  {
+    id: 'status',
+    label: 'Status',
+    minWidth: 100,
+    align: 'center',
+   
+  },
+
 ];
 
-function createData(sn, date, batch, quan, starttime, eta, sta) {
-  
-  return { sn, date, batch, quan,starttime,eta, sta };
-}
 
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263, 'IN', 1324171354, 'Completed'),
-  createData('China', 'CN', 1403500365, 9596961, 'IN', 1324171354, 'Completed'),
-  createData('Italy', 'IT', 60483973, 301340, 'IN', 1324171354, 'Completed'),
-  createData('United States', 'US', 327167434, 9833520, 'IN', 1324171354, 'Completed'),
-  createData('Canada', 'CA', 37602103, 9984670, 'IN', 1324171354, 'Completed'),
-  createData('Australia', 'AU', 25475400, 7692024, 'IN', 1324171354, 'Completed'),
-  createData('Germany', 'DE', 83019200, 357578, 'IN', 1324171354, 'Completed'),
-  createData('Ireland', 'IE', 4857000, 70273, 'IN', 1324171354, 'Completed'),
-  createData('United States', 'UqS', 327167434, 9833520, 'IN', 1324171354, 'Completed'),
-  createData('Canada', 'CwA', 37602103, 9984670, 'IN', 1324171354, 'Completed'),
-  createData('Australia', 'AdU', 25475400, 7692024, 'IN', 1324171354, 'Completed'),
-  createData('Germany', 'DqE', 83019200, 357578, 'IN', 1324171354, 'Completed'),
-  createData('Ireland', 'IeE', 4857000, 70273, 'IN', 1324171354, 'Completed'),
-   createData('United States', 'UeS', 327167434, 9833520, 'IN', 1324171354, 'Completed'),
-  createData('Canada', 'CqA', 37602103, 9984670, 'IN', 1324171354, 'Completed'),
-  createData('Australia', 'AeU', 25475400, 7692024, 'IN', 1324171354, 'Completed'),
-  createData('Germany', 'D2E', 83019200, 357578, 'IN', 1324171354, 'Completed'),
-  createData('Ireland', 'IwE', 4857000, 70273, 'IN', 1324171354, 'Completed'),
-];
 
 export default function PlateProTable() {
   const [page, setPage] = useState(0);
@@ -92,7 +83,7 @@ export default function PlateProTable() {
   useEffect(() =>{
     GetServices.getAllProduction().then(
       (response) => {
-        setProductions(response.data['production years']);
+        setProductions(response.data['all productions']);
         console.log(response.data)
         
       },
@@ -126,23 +117,28 @@ export default function PlateProTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {productions
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, index) => {
                 return (
                     <TableRow
-              key={row.date}
+              key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.sn}
+                {index + 1}
               </TableCell>
-              <TableCell align="right">{row.date}</TableCell>
-              <TableCell align="right">{row.batch}</TableCell>
-              <TableCell align="right">{row.quan}</TableCell>
-              <TableCell align="right">{row.starttime}</TableCell>
-              <TableCell align="right">{row.eta}</TableCell>
-              <TableCell align="right"><span className=' bg-suc-color text-suc-text rounded-lg p-3'>{row.sta}</span></TableCell>
+              <TableCell align="right">{row.manufacture_date}</TableCell>
+              <TableCell align="center">{row.batch_code}</TableCell>
+              <TableCell align="right">{row.quantity}</TableCell>
+              <TableCell align="center">{row.serial_starts}</TableCell>
+              <TableCell align="center">{row.production_week}</TableCell>
+              <TableCell align="center">{row.production_year}</TableCell>
+              <TableCell align="right">{row.dimension}</TableCell>
+
+              <TableCell align="right">{row.status === '1' ?<span className=' bg-suc-color text-suc-text rounded-lg p-3'>Completed</span>:
+              <span className='  bg-inpro-co text-inpro-text rounded-lg p-3'>Pending</span>
+              }</TableCell>
              
             </TableRow>
                 );
@@ -153,12 +149,13 @@ export default function PlateProTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={productions.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      {productions.length === 0 && <p className=' text-center text-red-800'>No data found</p>}
     </Paper>
   );
 }

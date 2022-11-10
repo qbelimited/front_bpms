@@ -48,6 +48,11 @@ const getAllUsers =() =>{
     return axios.get(API_URL + '/api/npms/v1/get-users',{ headers: authHeader() } )
 }
 
+const getAllPlateDimension =() =>{
+    return axios.get(API_URL + '/api/npms/v1/get-plate-dimensions',{ headers: authHeader() } )
+}
+
+
 
 const getServices = {
     getAllBill,
@@ -62,7 +67,8 @@ const getServices = {
     getAllPlates,
     getAllCompany,
     getAllColor,
-    getAllUsers
+    getAllUsers,
+    getAllPlateDimension
 }
 
 export default getServices;

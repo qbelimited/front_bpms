@@ -1,5 +1,4 @@
 import React, {useState,useEffect} from 'react'
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -27,9 +26,6 @@ function WarehouseSelect({bool,items, value, onChange}) {
   return (
     <div className={bool ? 'w-full' :' w-32'}>
             <FormControl fullWidth size={!bool &&"small"}>
-            {warehouses.map((i, index) =>(
-                <InputLabel key={i.id} id="demo-simple-select-label">{index === 0 ? i.name : null}</InputLabel>
-                ))}
             
                 <Select
                 labelId="demo-simple-select-label"

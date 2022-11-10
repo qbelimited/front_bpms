@@ -9,6 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import GetServices from '../../Services/get-services';
+import GetBillDetails from './GetBillDetails';
 const columns = [
   { id: 'sn', label: 'S/N', minWidth: 30 },
   { id: 'timestamp', label: 'Time stamp', minWidth: 170 },
@@ -43,14 +44,14 @@ const columns = [
   {
     id: 'status',
     label: 'Status',
-    minWidth: 170,
+    minWidth: 100,
     align: 'right',
    
   },
   {
     id: 'action',
-    label: 'Action',
-    minWidth: 170,
+    label: 'Bill Details',
+    minWidth: 120,
     align: 'right',
    
   },
@@ -65,27 +66,16 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
   }));
 
-function createData(sn, timestamp, bill, company, sent, received, status,action ) {
-  
-  return { sn,timestamp, bill, company, sent, received, status,action };
-}
 
-const rows = [
-  createData('01', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
-  createData('02', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
-  createData('03', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
-  createData('04', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Pending.'),
-  createData('05', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
-  createData('06', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
-  createData('07', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Pending.'),
-  createData('08', '22/10/2022 - 15:25', '2837-1635-2653', 'XYZ Limited', 'Goliath', 'James', 'Received', 'Confirmed.'),
-];
 
 function BIllsTable() {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [bill, setBill] = useState([]);
+    const [id, setId] = useState('')
+    const[open, setOpen] = useState(false)
+    const handleClose = (() => setOpen(false))
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
@@ -113,6 +103,12 @@ function BIllsTable() {
         )
     }, [])
     return (
+      <>
+       <GetBillDetails 
+        id={id}
+        open={open}
+        handleClose={handleClose}
+       />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer className=' bg-gray-50' sx={{ maxHeight: 440 }}>
           <Table   stickyHeader aria-label="sticky table">
@@ -131,27 +127,31 @@ function BIllsTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {bill
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+                .map((row, index) => {
                   return (
                       <TableRow
-                key={row.sn}
+                key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.sn}
+                  {index + 1}
                 </TableCell>
                 <TableCell align="left">{row.timestamp}</TableCell>
-                <TableCell align="center">{row.bill}</TableCell>
-                <TableCell align="center">{row.company}</TableCell>
-                <TableCell align="right">{row.sent}</TableCell>
-                <TableCell align="right">{row.received}</TableCell>
-                <TableCell align="right">{row.status}</TableCell>
+                <TableCell align="center">{row.invoice}</TableCell>
+                <TableCell align="center">{row.name}</TableCell>
+                <TableCell align="right">{row.sent_by}</TableCell>
+                <TableCell align="right">{row.received_by}</TableCell>
                 
-                <TableCell align="right">{row.action === 'Confirmed.'?<span className=' bg-suc-color text-suc-text rounded-lg p-3'>{row.action}</span>: 
-                <span className=' bg-inpro-co text-inpro-text rounded-lg p-3'>{row.action}</span>
+                <TableCell align="right">{row.status === '1'?<span className=' bg-suc-color text-suc-text rounded-lg p-3'>Paid</span>: 
+                <span className=' bg-inpro-co text-inpro-text rounded-lg p-3'>Pending</span>
                 }</TableCell>
+                <TableCell align="right" className=' cursor-pointer text-blue-700 underline' onClick={() =>{
+                  setOpen(true)
+                  setId(row.id)
+                }}>Details</TableCell>
+                
               </TableRow>
                   );
                 })}
@@ -161,13 +161,15 @@ function BIllsTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={bill.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+               {bill.length === 0 && <p className=' text-red-800 text-center'>No Data Found</p>}
       </Paper>
+      </>
     );
 }
 

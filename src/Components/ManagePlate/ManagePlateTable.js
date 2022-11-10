@@ -1,4 +1,4 @@
-import  React, {useState} from 'react';
+import  React, {useState, useEffect} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import SearchButton from '../SelectValue/SearchButton';
 import ManagePlateModal from './ManagePlateModal';
 import Filter from '../Filter';
+import getServices from '../../Services/get-services';
 
 const columns = [
     { id: 'plateno', label: 'Plate number', minWidth: 170 },
@@ -45,34 +46,14 @@ const columns = [
     },
   ];
   
-  function createData(plateno,  serial,  color, size, action) {
-    
-    return { plateno, serial, color,size, action };
-  }
   
-  const rows = [
-    createData('ACC-233GHq', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GHe', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GHd', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GHf', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GHc', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GHx', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GwH', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GfH', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GvH', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GbH', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GjH', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GkH', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233GmH', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233G,H', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233G5H', '2837-1635-2653', 'Red', 'Small', 'More...'),
-    createData('ACC-233G3H', '2837-1635-2653', 'Red', 'Small', 'More...'),
-  ];
 
 function ManagePlateTable() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const[open, setOpen] = useState(false)
+    const[ value, setValue] = useState('')
+    const [plate, setPlate] = useState([])
       const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
     const handleChangePage = (event, newPage) => {
@@ -83,7 +64,43 @@ function ManagePlateTable() {
       setRowsPerPage(+event.target.value);
       setPage(0);
     };
+    
+    useEffect(() =>{
+          getServices.getAllPlates().then(
+            (response) => {
+              
+              setPlate(response.data['all number plates']);
+             
+              console.log(response.data['all number plates'])
+              
+            },
+            (error) => {
+              const _content =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+      
+                setPlate(_content);
+            }
+          )
+    }, [])
+
+    const filteredPlate = plate.filter(
+      person => {
+        return (
+          person
+          .number_plate
+          .toLowerCase()
+          .includes(value.toLowerCase()) ||
+          person
+          .color
+          .toLowerCase()
+          .includes(value.toLowerCase())
+        );
+      }
+    );
   
+
     return (
         <>
         <ManagePlateModal
@@ -96,6 +113,7 @@ function ManagePlateTable() {
         <div className=' mb-10'>
             <SearchButton 
                 label='Enter a plate or serial number'
+                onChange={setValue}
             />
         </div>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -116,21 +134,21 @@ function ManagePlateTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filteredPlate
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
                       <TableRow
-                key={row.plateno}
+                key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.plateno}
+                  {row.number_plate}
                 </TableCell>
                 <TableCell align="right">{row.serial}</TableCell>
                 <TableCell align="right">{row.color}</TableCell>
-                <TableCell align="right">{row.size}</TableCell>
-                <TableCell align="right"><span onClick={handleOpen} className=' cursor-pointer text-blue-600 '>{row.action}</span></TableCell>
+                <TableCell align="right">{row.dimension}</TableCell>
+                <TableCell align="right"><span onClick={handleOpen} className=' cursor-pointer text-blue-600 '>More...</span></TableCell>
                 
                
               </TableRow>
@@ -142,7 +160,7 @@ function ManagePlateTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={filteredPlate.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

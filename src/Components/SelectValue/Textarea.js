@@ -10,7 +10,7 @@ function Textarea({label, value, onChange, place}) {
       aria-label="minimum height"
       minRows={4}
       value={value}
-      onChange={onChange}
+      onChange={(e) =>onChange(e.target.value)}
       placeholder={place}
       
     />

@@ -36,29 +36,7 @@ const columns = [
     
   ];
   
-  function createData(sn, plateco, small, med, big) {
-    
-    return { sn,plateco, small, med, big  };
-  }
   
-  const rows = [
-    createData('01', 'Red', 20, 30, 20),
-    createData('02', 'Red', 20, 30, 20),
-    createData('03', 'Red', 20, 30, 20),
-    createData('04', 'Red', 20, 30, 20),
-    createData('05', 'Red', 20, 30, 20),
-    createData('06', 'Red', 20, 30, 20),
-    createData('07', 'White', 20, 30, 20),
-    createData('08', 'Red', 20, 30, 20),
-    createData('09', 'Green', 20, 30, 20),
-    createData('10', 'Red', 20, 30, 20),
-    createData('11', 'Red', 20, 30, 20),
-    createData('12', 'Yellow', 20, 30, 20),
-    createData('13', 'Red', 20, 30, 20),
-    createData('14', 'Red', 20, 30, 20),
-    createData('15', 'Red', 20, 30, 20),
-    createData('16', 'Red', 20, 30, 20),
-  ];
 
 function TableStorage() {
     const [page, setPage] = useState(0);
@@ -153,7 +131,7 @@ function TableStorage() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={warehouses.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

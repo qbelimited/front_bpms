@@ -29,25 +29,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
   }));
 
-function createData(sn, color) {
-  
-  return { sn, color};
-}
 
-const rows = [
-  createData('01', 'Received',),
-  createData('02', 'Received',),
-  createData('03', 'Received',),
-  createData('04', 'Received',),
-  createData('05', 'Received',),
-  createData('06', 'Received',),
-  createData('07', 'Received',),
-  createData('08', 'Received',),
-  createData('09', 'Received',),
-  createData('10', 'Received',),
-  createData('11', 'Received',),
-  createData('12', 'Received',),
-];
 
 
 function PlateColorTable() {
@@ -57,9 +39,9 @@ function PlateColorTable() {
     const [open, setOpen] = useState(false)
     const [open1, setOpen1] = useState(false)
     const [id, setId] = useState('')
-    const handleOpen = (() => setOpen(true))
+    
     const handleClose = (() => setOpen(false))
-    const handleOpen1 = (() => setOpen1(true))
+  
     const handleClose1 = (() => setOpen1(false))
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -148,12 +130,13 @@ function PlateColorTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={colors.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        {colors.length === 0 && <p className=' text-center text-red-800'>No Data Found</p>}
       </Paper>
       </>
     );

@@ -7,22 +7,27 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Pagination } from '@mui/material';
-
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'usertype', label: 'User type', minWidth: 100 },
+  { id: 'name', label: 'Name', },
+  { id: 'usertype', label: 'User type', },
   {
     id: 'login',
     label: 'Last login',
-    minWidth: 170,
+    
     align: 'right',
    
   },
   {
     id: 'activity',
     label: 'Activity',
-    minWidth: 170,
+    
+    align: 'right',
+   
+  },
+  {
+    id: 'acti',
+    label: 'Date',
+    
     align: 'right',
    
   },
@@ -66,7 +71,8 @@ export default function MainTable() {
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <div className=' w-full overflow-x-auto'>
+    <Paper className=' w-full  '>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table className=' bg-gray-100' stickyHeader aria-label="sticky table">
           <TableHead >
@@ -110,5 +116,6 @@ export default function MainTable() {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
+    </div>
   );
 }

@@ -27,25 +27,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
   }));
 
-function createData(sn, mode, quan, name, time, sentby, invoice) {
-  
-  return { sn, mode, quan, name, time, sentby, invoice};
-}
-
-const rows = [
-  createData('01', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua'),
-  createData('02', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua'),
-  createData('03', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshue'),
-  createData('04', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua'),
-  createData('05', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua'),
-  createData('06', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua'),
-  createData('07', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshue'),
-  createData('08', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshue'),
-  createData('09', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua'),
-  createData('10', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua'),
-  createData('11', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua'),
-  createData('12', '**********'," 022444245", 'XYZ Limited', '22/10/2022 - 15:25', 'Joshua'),
-];
 
 function UserManagementTable() {
     const [page, setPage] =useState(0);
@@ -57,6 +38,7 @@ function UserManagementTable() {
     const [open1, setOpen1] = useState(false)
     const handleOpen1 = (() => setOpen1(true))
     const handleClose1 = (() => setOpen1(false))
+    const[ value, setValue] = useState('')
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
@@ -83,6 +65,24 @@ function UserManagementTable() {
         }
        )
     },  [])
+    const filteredUsers = users.filter(
+      person => {
+        return (
+          person
+          .fname
+          .toLowerCase()
+          .includes(value.toLowerCase()) ||
+          person
+          .mname
+          .toLowerCase()
+          .includes(value.toLowerCase()) ||
+          person
+          .email
+          .toLowerCase()
+          .includes(value.toLowerCase())
+        );
+      }
+    );
     return (
         <>
         <UserUpdateModal
@@ -96,7 +96,8 @@ function UserManagementTable() {
         <div className=' mb-9 grid grid-cols-5 gap-4'>
         <div className=' col-span-4'>
             <SearchButton 
-                label='Search for a user'
+                label='Search by name or email'
+                onChange={setValue}
             />
 
         </div>
@@ -119,7 +120,7 @@ function UserManagementTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users
+              {filteredUsers
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
@@ -145,12 +146,13 @@ function UserManagementTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={filteredUsers.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        {filteredUsers.length === 0 && <p className=' text-red-800 text-center'>No Data Found</p>}
       </Paper>
       </>
     );
