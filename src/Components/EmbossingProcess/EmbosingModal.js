@@ -76,6 +76,7 @@ function EmbosingModal({open, handleClose}) {
                   </div>
                   
               </div>
+              
               <div>
               <TextBox 
                           label='Serial Number'
