@@ -1,12 +1,14 @@
-import React from 'react'
+import React,{useState} from 'react'
 import Box from '@mui/material/Box';
-
+import swal from 'sweetalert';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Button from '../SelectValue/Button'
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import TextBox from '../SelectValue/TextBox';
-import SelectButton from '../SelectValue/SelectButton';
+import SelectColor from './SelectColor';
+import SelectSize from './SelectSize';
+import postService from '../../Services/post-services';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -18,12 +20,41 @@ const style = {
     p: 4,
   };
 function PlateProductionModal({open, handleClose}) {
-//       const [open, setOpen] = useState(false);
-//   const handleOpen = () => setOpen(true);
-//   const handleClose = () => setOpen(false);
-const bool = true
-  const color = ['red', 'blue', 'orange']
-  const size = ['Small', 'Big', 'Large']
+  const bool = true
+  const [loading, setLoading] = useState(false)
+  const [color, setColor] = useState('')
+  const [dimension, setDimension] = useState('')
+  const[serialNo, setSerialNo] = useState()
+  const [quantity, setQuantity] = useState()
+  const [batchCode, setBatchCode] = useState()
+
+  const handleSubmit = (e) =>{
+    e.preventDefault()
+    setLoading(true)
+
+    postService.addProduction(color, dimension, quantity,batchCode, serialNo).then(
+      (response) => {
+        console.log(response.data)
+        swal("Plate Production added Successfully")
+          .then((value) => {
+            window.location.reload()
+          });
+         
+      },
+      (error) => {
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+          return  swal(_content)
+          .then((value) => {
+            window.location.reload()
+          });
+         
+      }
+    )
+  }
+  
   return (
     <div>
       
@@ -43,20 +74,23 @@ const bool = true
                </div> 
             </div>
           </Typography>
+          <form onSubmit={handleSubmit}> 
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <div className=' mb-2'>
                 <label className=' block mb-1'>Select a colour</label>
-                <SelectButton 
-                    items={color}
-                    bool={true}
-                />
+                <SelectColor
+                 bool={bool}
+                 value={color}
+                 onChange= {setColor}
+                 />
             </div>
             <div>
                 <label className=' block mb-1'>Select a size</label>
                 <div className=' w-full'>
-                <SelectButton 
-                    items={size}
+                <SelectSize
                     bool={true}
+                    value={dimension}
+                    onChange={setDimension}
                 />
                 </div>
                 
@@ -67,6 +101,8 @@ const bool = true
                         label='Enter last serial number'
                         type='text'
                         bool={bool}
+                        value={serialNo}
+                        onChange={setSerialNo}
                     />
                 </div>
                 <div>
@@ -74,17 +110,29 @@ const bool = true
                         label='Quantity'
                         type='text'
                         bool={bool}
+                        value={quantity}
+                        onChange={setQuantity}
                     />
                 </div>
+            </div>
+            <div className=' mt-3'>
+            <TextBox 
+                        label='Batch Code'
+                        type='text'
+                        bool={bool}
+                        value={batchCode}
+                        onChange={setBatchCode}
+                    />
             </div>
 
           </Typography>
           <div className=' mt-3'>
           <Button 
-            name='Start manufacturing'
+            name={loading ? 'Loading...' :'Start manufacturing'}
            
           />
           </div>
+          </form>
           
         </Box>
       </Modal>

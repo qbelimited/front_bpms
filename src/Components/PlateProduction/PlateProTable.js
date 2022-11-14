@@ -10,54 +10,54 @@ import TableRow from '@mui/material/TableRow';
 import GetServices from '../../Services/get-services';
 
 const columns = [
-  { id: 'sn', label: 'S/N', minWidth: 70 },
-  { id: 'date',  align: 'center', label: 'Date', minWidth: 170 },
+  { id: 'sn', label: 'S/N' },
+  { id: 'date',  align: 'center', label: 'Date'},
   {
     id: 'batch',
     label: 'Batch No.',
-    minWidth: 100,
+    
     align: 'center',
     
   },
   {
     id: 'quan',
     label: 'Quantity',
-    minWidth: 100,
+    
     align: 'right',
   
   },
   {
     id: 'starttime',
     label: 'Serial starts',
-    minWidth: 100,
+    
     align: 'center',
    
   },
   {
     id: 'eta',
     label: 'Production week',
-    minWidth: 100,
+    
     align: 'center',
    
   },
   {
     id: 'sta',
     label: 'Production year',
-    minWidth: 100,
+    
     align: 'right',
    
   },
   {
     id: 'dim',
     label: 'Dimension',
-    minWidth: 100,
+    
     align: 'right',
    
   },
   {
     id: 'status',
     label: 'Status',
-    minWidth: 100,
+    
     align: 'center',
    
   },
@@ -99,7 +99,7 @@ export default function PlateProTable() {
   }, [])
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper className=' w-full mx-auto overflow-x-auto '>
       <TableContainer className=' bg-gray-100' sx={{ maxHeight: 440 }}>
         <Table   stickyHeader aria-label="sticky table">
           <TableHead >

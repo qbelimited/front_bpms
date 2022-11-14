@@ -28,48 +28,10 @@ const columns = [
       align: 'right',
      
     },
-    // {
-    //   id: 'eta',
-    //   label: 'ETA',
-    //   minWidth: 70,
-    //   align: 'right',
-     
-    // },
-    // {
-    //   id: 'sta',
-    //   label: 'Status',
-    //   minWidth: 70,
-    //   align: 'right',
-     
-    // },
-  ];
-  
-  function createData(sn, date, serial,  starttime, eta, sta) {
     
-    return { sn, date, serial, starttime,eta, sta };
-  }
-  
-  const rows = [
-    createData('India', 'IN', 1324171354, 3287263, 'IN',  'Completed'),
-    createData('China', 'CN', 1403500365, 9596961, 'IN',  'Completed'),
-    createData('Italy', 'IT', 60483973, 301340, 'IN',  'Completed'),
-    createData('United States', 'US', 327167434, 9833520, 'IN',  'Completed'),
-    createData('Canada', 'CA', 37602103, 9984670, 'IN',  'Completed'),
-    createData('Australia', 'AU', 25475400, 7692024, 'IN',  'In Productn'),
-    createData('Germany', 'DE', 83019200, 357578, 'IN',  'Completed'),
-    createData('Ireland', 'IE', 4857000, 70273, 'IN',  'Completed'),
-    createData('United States', 'UqS', 327167434, 9833520, 'IN',  'Completed'),
-    createData('Canada', 'CwA', 37602103, 9984670, 'IN',  'Completed'),
-    createData('Australia', 'AdU', 25475400, 7692024, 'IN',  'In Productn'),
-    createData('Germany', 'DqE', 83019200, 357578, 'IN',  'Completed'),
-    createData('Ireland', 'IeE', 4857000, 70273, 'IN',  'Completed'),
-     createData('United States', 'UeS', 327167434, 9833520, 'IN',  'Completed'),
-    createData('Canada', 'CqA', 37602103, 9984670, 'IN',  'In Productn'),
-    createData('Australia', 'AeU', 25475400, 7692024, 'IN',  'Completed'),
-    createData('Germany', 'D2E', 83019200, 357578, 'IN',  'Completed'),
-    createData('Ireland', 'IwE', 4857000, 70273, 'IN',  'Completed'),
   ];
-
+  
+ 
 function EmbrossingTable() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -151,7 +113,7 @@ function EmbrossingTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={embosser.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

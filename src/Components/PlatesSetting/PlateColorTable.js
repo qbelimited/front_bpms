@@ -13,11 +13,14 @@ import { styled } from '@mui/material/styles';
 import getServices from '../../Services/get-services';
 import ActivateColor from './ActivateColor';
 import DeactivateColor from './DeactiveColor';
+import EditIcon from '@mui/icons-material/Edit';
+import Tooltip from '@mui/material/Tooltip';
+import UpdateColorModal from './UpdateColorModal';
 
 const columns = [
-  { id: 'sn', label: 'S/N', minWidth: 30 },
-  { id: 'color', label: 'Plate colour', align: 'right', minWidth: 60 },
-  
+  { id: 'sn', label: 'Plate colour',  },
+  { id: 'color', label: 'Code', align: 'right', },
+  { id: 'action', label: 'Action', align: 'right', },
 ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -38,10 +41,12 @@ function PlateColorTable() {
     const [colors, setColors] = useState([])
     const [open, setOpen] = useState(false)
     const [open1, setOpen1] = useState(false)
+    const [open2, setOpen2] = useState(false)
     const [id, setId] = useState('')
-    
+    const [name, setName] = useState('')
+    const [code, setCode] = useState('')
     const handleClose = (() => setOpen(false))
-  
+    const handleClose2 = (() => setOpen2(false))
     const handleClose1 = (() => setOpen1(false))
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -81,6 +86,13 @@ function PlateColorTable() {
         handleClose={handleClose1}
         id={id}
        />
+       <UpdateColorModal 
+        open={open2}
+        handleClose={handleClose2}
+        id={id}
+        name={name}
+        code={code}
+       />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer className=' bg-gray-50' sx={{ maxHeight: 440 }}>
           <Table   stickyHeader aria-label="sticky table">
@@ -110,8 +122,16 @@ function PlateColorTable() {
                 <TableCell component="th" scope="row">
                   {row.color}
                 </TableCell>
-                <TableCell align="right"> <span className=' text-blue-600 cursor-pointer' >Update 
-                </span>{row.status === '1' ?  <RemoveCircleOutlineOutlinedIcon onClick={ (() => {
+                <TableCell align="right">
+                  {row.code}
+                </TableCell>
+                <TableCell align="right"> <span className=' text-blue-600 cursor-pointer' > <Tooltip title="Update"><EditIcon onClick={ (() => {
+                      setId(row.id)
+                      setName(row.color)
+                      setCode(row.code)
+                      setOpen2(true)
+                    })}/></Tooltip>
+                </span>{row.status === '1' ?  <RemoveCircleOutlineOutlinedIcon className='cursor-pointer' onClick={ (() => {
                       setId(row.id)
                       setOpen1(true)
                     })}
@@ -119,7 +139,7 @@ function PlateColorTable() {
                  <AddCircleOutlineOutlinedIcon onClick={ (() => {
                       setId(row.id)
                       setOpen(true)
-                    })} sx={{ color: 'green'}}/> 
+                    })} sx={{ color: 'green'}}/>  
                 }</TableCell>
               </TableRow>
                   );

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Box from '@mui/material/Box';
 import swal from 'sweetalert';
 
@@ -20,19 +20,27 @@ const style = {
     p: 4,
   };
 
-function PlateColorModal({open, handleClose}) {
-  const bool = true
-   const [name, setName] = useState('')
-   const [code, setCode]  = useState('')
+function UpdateColorModal({open, handleClose, id, name, code}) {
+   const bool = true
+   const [names, setName] = useState('')
+   const [codes, setCode]  = useState('')
    const [loading, setLoading] = useState(false)
+   const [ids, setId]= useState('')
+
+   useEffect(() =>{
+        setName(name);
+        setCode(code);
+        setId(id)
+        
+   }, [name,code, id ])
    const handleSubmit = (e) =>{
 
         e.preventDefault()
         setLoading(true)
-        postService.adddColor(name, code).then(
+        postService.colorUpdate(names, codes, ids).then(
           (response) => {
             
-            swal("Added Successfully.")
+            swal("Updated Successfully.")
               .then((value) => {
                 window.location.reload()
               });
@@ -65,7 +73,7 @@ function PlateColorModal({open, handleClose}) {
           <Box sx={style} className=' shadow-lg rounded-md'>
             <Typography id="modal-modal-title" className='' variant="h6" component="h2">
               <div className=' flex justify-between'>
-                  <h1 className=' text-gray-400'>Add new plate color</h1>
+                  <h1 className=' text-gray-400'>Update plate color</h1>
                  <div onClick={handleClose}>
                  <HighlightOffOutlinedIcon />
                  </div> 
@@ -79,7 +87,7 @@ function PlateColorModal({open, handleClose}) {
                      label='Add new plate color'
                      type='text'
                      bool={bool}
-                     value={name}
+                     value={names}
                      onChange={setName}
                   />
               </div>
@@ -89,7 +97,7 @@ function PlateColorModal({open, handleClose}) {
                      label='Code'
                      type='text'
                      bool={bool}
-                     value={code}
+                     value={codes}
                      onChange={setCode}
                   />
               </div>
@@ -109,4 +117,4 @@ function PlateColorModal({open, handleClose}) {
   )
 }
 
-export default PlateColorModal
+export default UpdateColorModal

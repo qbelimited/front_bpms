@@ -166,6 +166,7 @@ function ManagePlateTable() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        {filteredPlate.length === 0 && <p className=' text-center text-red-800'>No Data Found</p>}
       </Paper>
         </div>
         <div>

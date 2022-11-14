@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import GetServices from '../../Services/get-services';
 import WarehouseSelect from '../SelectValue/WarehouseSelect';
 const columns = [
-    { id: 'sn', label: 'S/N', minWidth: 70 },
+   
     { id: 'plateco', label: 'Plate Number', minWidth: 70 },
     {
       id: 'small',
@@ -111,13 +111,13 @@ function TableStorage() {
                 key={row.number_plate}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.number_plate}
-                </TableCell>
+                
                 <TableCell align="left">{row.number_plate}</TableCell>
                 <TableCell align="left">{row.color}</TableCell>
                 <TableCell align="left">{row.dimension}</TableCell>
-                <TableCell align="left">{row.storage}</TableCell>
+                <TableCell align="enter">{row.storage === '1' ?<span className=' bg-suc-color text-suc-text rounded-lg p-3'>Stored</span>:
+              <span className='  bg-inpro-co text-inpro-text rounded-lg p-3'>Pending</span>
+              }</TableCell>
                 
               </TableRow>
                   );

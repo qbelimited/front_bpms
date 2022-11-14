@@ -23,7 +23,7 @@ function SigninForm() {
       if(status){
         navigate('/dashboard');
       }
-    }, [dispatch, status]);
+    }, [dispatch, status, navigate]);
 
     const handleSubmit = (e) =>{
       e.preventDefault()

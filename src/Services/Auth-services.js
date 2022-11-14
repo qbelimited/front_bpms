@@ -8,12 +8,13 @@ const login = (email, password) => {
     formData.append("password", password);
     return axios.post( API_URL + '/api/npms/v1/login', formData, )
     .then((response) =>{
-        if(response.data.token){
+        if(response.data.response_code === '200'){
             localStorage.setItem('user', JSON.stringify(response.data))
         }
         return response.data;
     })
 }
+
 
 const logout = () => {
     localStorage.removeItem("user");

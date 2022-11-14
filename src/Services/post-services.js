@@ -101,9 +101,70 @@ const sendHelp = (priority, subject, message) =>{
     formData.append("subject", subject);
     formData.append("message", message);
     return axios.post(API_URL + '/api/npms/v1/help', formData, { headers: authHeader() } );
+} 
+const adddColor = (color, code) =>{
+    const formData = new FormData();
+    formData.append("color", color);
+    formData.append("code", code);
+    return axios.post(API_URL + '/api/npms/v1/add-plate-color', formData, { headers: authHeader() } );
+}
+const colorUpdate = (color, code, id) =>{
+    const formData = new FormData();
+    formData.append("color", color);
+    formData.append("code", code);
+    formData.append("id", id);
+    return axios.post(API_URL + '/api/npms/v1/update-plate-color', formData, { headers: authHeader() } );
+}
+
+const addPlateSize = (description, code, dimensions) =>{
+    const formData = new FormData();
+    formData.append("description", description);
+    formData.append("code", code);
+    formData.append("dimensions", dimensions);
+    formData.append("status", '1');
+    return axios.post(API_URL + '/api/npms/v1/add-plate-dimension', formData, { headers: authHeader() } );
+}
+
+const updatePlateSize = (description, code, dimensions, id) =>{
+    const formData = new FormData();
+    formData.append("description", description);
+    formData.append("code", code);
+    formData.append("dimensions", dimensions);
+    formData.append("status", '1');
+    formData.append("id", id);
+    return axios.post(API_URL + '/api/npms/v1/update-plate-dimension', formData, { headers: authHeader() } );
+}
+
+const deactivatePlate = (id) =>{
+    const formData = new FormData();
+    formData.append("id", id);
+    return axios.post(API_URL + '/api/npms/v1/deactivate-plate-dimension', formData, { headers: authHeader() } );
+}
+const activatePlate = (id) =>{
+    const formData = new FormData();
+    formData.append("id", id);
+    return axios.post(API_URL + '/api/npms/v1/activate-plate-dimension', formData, { headers: authHeader() } );
+}
+
+const addProduction = (plate_color_id, plate_dimension_id, quantity, batch_code, serial_starts) =>{
+    const formData = new FormData();
+    formData.append("plate_color_id", plate_color_id);
+    formData.append("plate_dimension_id", plate_dimension_id);
+    formData.append("quantity", quantity);
+    formData.append("serial_starts", serial_starts);
+    formData.append(" batch_code",  batch_code);
+    formData.append("status", '1');
+    return axios.post(API_URL + '/api/npms/v1/add-production', formData, { headers: authHeader() } );
 }
 
 const postService = {
+    addProduction,
+    activatePlate,
+    deactivatePlate,
+    updatePlateSize,
+    addPlateSize,
+    adddColor,
+    colorUpdate,
     addWareHouse,
     makePayment,
     confirmPayment,

@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react'
+import { Navigate  } from 'react-router-dom'
 import {useDispatch, useSelector}  from "react-redux";
 import {logout} from '../../Slice/auth'
 function Logout() {
@@ -12,6 +13,9 @@ function Logout() {
             window.location.href = '/'
         }
     }, [dispatch, user])
+    if ( !user) {
+      return <Navigate to="/" />;
+    }
   return (
     <div>Logout</div>
   )

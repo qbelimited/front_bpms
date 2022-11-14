@@ -41,6 +41,7 @@ import AppSettings from '../Settings/AppSettings';
 import Aboutbpms from '../Settings/Aboutbpms';
 import HelpSupport from '../Settings/HelpSupport';
 import Logout from '../Logout';
+import {useSelector}  from "react-redux";
 const drawerWidth = 240;
 
 
@@ -48,7 +49,7 @@ const drawerWidth = 240;
 function Dashboard(props) {
     const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
+  const {  user } = useSelector((state) => state.auth);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -290,9 +291,12 @@ function Dashboard(props) {
        
         </Toolbar>
             <div className=' flex flex-col justify-center p-2'>
+            <div>
+                <p className=' text-black inline-block mr-4'> Welcome {user.user.fname} {user.user.lname}</p>
                 <Link to='/user'>
-                    <img src={User} alt='User' width='40' height='40'/>
+                    <img src={User} alt='User' className=' inline-block' width='40' height='40'/>
                     </Link>
+                    </div>
                     </div>
                  </div>
       </AppBar>
@@ -317,6 +321,7 @@ function Dashboard(props) {
         >
           {drawer}
           
+
         </Drawer>
         <Drawer
           variant="permanent"

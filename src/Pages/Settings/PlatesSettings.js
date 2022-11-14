@@ -43,10 +43,10 @@ function PlatesSettings() {
         </div>
 
         <div className='mt-9 grid md:grid-cols-6 gap-4'> 
-        <div className=' col-span-2'>
+        <div className='col-span-1 md:col-span-2'>
         <PlateColorTable />
         </div>
-        <div className=' col-span-4'>
+        <div className='col-span-1 md:col-span-4'>
         <PlateSizeTable />
         </div>
           

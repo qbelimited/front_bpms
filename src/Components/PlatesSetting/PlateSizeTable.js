@@ -9,21 +9,33 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import getServices from '../../Services/get-services';
+import EditIcon from '@mui/icons-material/Edit';
+import Tooltip from '@mui/material/Tooltip';
+import UpdateSizeModel from './UpdateSizeTable';
 
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import ActivatePlate from './ActivatePlate';
+
+import DeactivatePlate from './DeactivatePlate';
 const columns = [
-  { id: 'sn', label: 'S/N', minWidth: 30 },
-  { id: 'mode', label: 'Description', minWidth: 100 },
+ 
+  { id: 'mode', label: 'Description',},
   {
     id: 'quan',
     label: 'Dimension',
-    minWidth: 100,
     align: 'Center',
     
   },
   {
     id: 'quan',
     label: 'Code',
-    minWidth: 60,
+    align: 'right',
+    
+  },
+  {
+    id: 'act',
+    label: 'Action',
     align: 'right',
     
   },
@@ -45,6 +57,17 @@ function PlateSizeTable() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [size, setSize] = useState([])
+    const [open, setOpen] = useState(false)
+    const handleClose = (() => setOpen(false))
+    const [id, setId] = useState('')
+    const [dimension, setDimension] = useState('')
+    const[ description, setDescription] = useState('')
+    const[code, setCode] = useState('')
+    const [open1, setOpen1] = useState(false)
+    const [open2, setOpen2] = useState(false)
+    const handleClose2 = (() => setOpen2(false))
+    const handleClose1 = (() => setOpen1(false))
+
     useEffect(()=>{
         getServices.getAllPlateDimension().then(
           (response) => {
@@ -72,6 +95,25 @@ function PlateSizeTable() {
     };
   
     return (
+      <div>
+      <UpdateSizeModel 
+      open={open}
+      handleClose={handleClose}
+      id={id}
+      descri={description}
+      dimen={dimension}
+      codes={code}
+      />
+      <ActivatePlate
+      id={id}
+      handleClose={handleClose1}
+      open={open1}
+       />
+       <DeactivatePlate 
+         id={id}
+      handleClose={handleClose2}
+      open={open2}
+       />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer className=' bg-gray-50' sx={{ maxHeight: 440 }}>
           <Table   stickyHeader aria-label="sticky table">
@@ -99,12 +141,29 @@ function PlateSizeTable() {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {index + 1}
+                {row.description}
                 </TableCell>
-                <TableCell align="left">{row.description}</TableCell>
+                
                 <TableCell align="left">{row.dimensions}</TableCell>
                 <TableCell align="right">{row.code}</TableCell>
-                
+                <TableCell align="right"><span className=' cursor-pointer p-2' 
+                    onClick={() =>{
+                      setOpen(true)
+                      setId(row.id)
+                      setDescription(row.description)
+                      setDimension(row.dimensions)
+                      setCode(row.code)
+                    }}
+                > <Tooltip title="Update"><EditIcon> </EditIcon></Tooltip></span> {row.status === '1' ?  <RemoveCircleOutlineOutlinedIcon className='cursor-pointer' onClick={ (() => {
+                      setId(row.id)
+                      setOpen2(true)
+                    })}
+                 sx={{ color: 'red'}}/>  :
+                 <AddCircleOutlineOutlinedIcon onClick={ (() => {
+                      setId(row.id)
+                      setOpen1(true)
+                    })} sx={{ color: 'green'}}/>  
+                }</TableCell>
               </TableRow>
                   );
                 })}
@@ -122,6 +181,7 @@ function PlateSizeTable() {
         />
         {size.length === 0 && <p className=' text-center text-red-800'>No Data Found</p>}
       </Paper>
+      </div>
     );
 }
 

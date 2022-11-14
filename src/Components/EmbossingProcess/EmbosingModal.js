@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useState} from 'react'
 import Box from '@mui/material/Box';
 
 import Typography from '@mui/material/Typography';
@@ -74,6 +74,16 @@ function EmbosingModal({open, handleClose}) {
                           value={text}
                       />
                   </div>
+                  
+              </div>
+              <div>
+              <TextBox 
+                          label='Serial Number'
+                          type='text'
+                          bool={bool}
+                          onChange={setText}
+                          value={text}
+                      />
                   
               </div>
   

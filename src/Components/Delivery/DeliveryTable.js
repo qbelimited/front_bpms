@@ -179,6 +179,7 @@ export default function DeliveryTable() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        {deliveries.length === 0 && <p className=' text-center text-red-800'>No Data Found</p>}
       </Paper>
       </>
     );

@@ -20,16 +20,17 @@ function CompanyManagement() {
             <p className=' text-gray-400 text-start'>Company management page - Please edit to fit proper descriprion of the page</p>
 
         </div>
-        <div className=' mt-8 grid grid-cols-5 gap-4'>
-            <div className=' col-span-4'>
-                <CompanyManageTable />
-            </div>
-            <div>
+        <div className=' mt-8 '>
                 <AddsButtion
                     name='Add new company'
                     onClick={handleOpen}
                  />
             </div>
+        <div className=' mt-8 grid grid-cols-5 gap-4'>
+            <div className=' md:col-span-5'>
+                <CompanyManageTable />
+            </div>
+            
         </div>
     </div>
   )

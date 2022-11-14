@@ -8,6 +8,7 @@ import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import TextBox from '../SelectValue/TextBox';
 import SelectButton from '../SelectValue/SelectButton';
 import ClipboardCopy from '../SelectValue/ClipboardCopy';
+import SelectCompany from './SelectCompany';
 
 const style = {
     position: 'absolute',
@@ -42,10 +43,16 @@ function UserCreateModal({open, handleClose}) {
               </div>
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <div className=' mb-2'>
+              <div className=' mb-2 grid md:grid-cols-2 gap-3'>
                  
                   <TextBox 
-                     label='Full name'
+                     label='Firstname'
+                     type='text'
+                     bool={bool}
+                    
+                  />
+                    <TextBox 
+                     label='Lastname'
                      type='text'
                      bool={bool}
                     
@@ -54,8 +61,8 @@ function UserCreateModal({open, handleClose}) {
               <div className=' mb-2 grid md:grid-cols-2 gap-4'>
               <div>
               <TextBox 
-                     label='Phone'
-                     type='tel'
+                     label='Middlename'
+                     type='text'
                      bool={bool}
                      
                   />
@@ -72,10 +79,19 @@ function UserCreateModal({open, handleClose}) {
               </div>
               </div>
               <div>
+              <TextBox 
+                     label='National Id'
+                     type='text'
+                     bool={bool}
+                    
+                  />
+                  
+              </div>
+              <div>
                   <label className=' block mb-1'>Assign company</label>
                   <div className=' w-full'>
-                  <SelectButton 
-                      items={color}
+                  <SelectCompany
+                     
                       bool={true}
                   />
                   </div>

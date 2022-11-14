@@ -1,12 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Box from '@mui/material/Box';
-
+import swal from 'sweetalert';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Button from '../SelectValue/Button'
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import TextBox from '../SelectValue/TextBox';
-import CmButtons from '../SelectValue/CmButtons';
+import postService from '../../Services/post-services';
 
 const style = {
     position: 'absolute',
@@ -20,8 +20,37 @@ const style = {
   };
 function PlateSizeModal({open, handleClose}) {
     const bool = true
-   
-   
+   const [description, setDescription] = useState('')
+   const [dimension, setDimension] = useState('')
+   const [code, setCode] = useState('')
+   const[loading, setLoading] = useState(false)
+   const handleSubmit = (e) =>{
+
+    e.preventDefault()
+    setLoading(true)
+    postService.addPlateSize(description, code, dimension).then(
+      (response) => {
+        
+        swal("Added Successfully.")
+          .then((value) => {
+            window.location.reload()
+          });
+          setLoading(false)
+      },
+      (error) => {
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+          swal("Error Occured.")
+          .then((value) => {
+            window.location.reload()
+          });
+          
+      }
+    )
+
+}
     return (
       <div>
         
@@ -41,39 +70,49 @@ function PlateSizeModal({open, handleClose}) {
                  </div> 
               </div>
             </Typography>
+            <form onSubmit={handleSubmit}>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+           
               <div className=' mb-2'>
                  
                   <TextBox 
-                     label='Plate size'
+                     label='Description'
                      type='text'
                      bool={bool}
+                     value={description}
+                     onChange={setDescription}
                   />
               </div>
              
               <div className=' mt-3 grid grid-cols-2 gap-4'>
                   <div className=' '>
-                      <CmButtons 
-                        value='0'
-                        label='Width'
-                      />
+                  <TextBox 
+                     label='Dimention'
+                     type='text'
+                     bool={bool}
+                     value={dimension}
+                     onChange= {setDimension}
+                  />
                   </div>
                   <div className=' '>
-                      <CmButtons 
-                        value='0'
-                        label='Height'
-                      />
+                  <TextBox 
+                     label='Code'
+                     type='text'
+                     bool={bool}
+                     value={code}
+                     onChange={setCode}
+                  />
                   </div>
                   </div>
   
             </Typography>
             <div className=' mt-3'>
             <Button 
-              name='Add plate size'
+              name={loading ? 'loading':'Add plate size'}
              
             />
             </div>
-            
+            </form>
           </Box>
         </Modal>
       </div>
