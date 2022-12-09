@@ -20,15 +20,16 @@ const style = {
   };
 
 
-function DeactivatePlate({id, handleClose, open}) {
+
+function ActivateEmbosserColor({id, handleClose, open}) {
     const [loading, setLoading] = useState(false)
 
     const handleActivate = () =>{
         setLoading(true)
-        postService.deactivatePlate(id).then(
+        postService.activateEmbosserColor(id).then(
             (response) => {
                 console.log(response.data)
-                swal("Deactivation Successfully")
+                swal("Activation Successfully")
                   .then((value) => {
                     window.location.reload()
                   });
@@ -39,7 +40,7 @@ function DeactivatePlate({id, handleClose, open}) {
                   (error.response && error.response.data) ||
                   error.message ||
                   error.toString();
-                  return  swal('Deactivation Failed')
+                  return  swal('Activation Failed')
                   .then((value) => {
                     window.location.reload()
                   });
@@ -58,7 +59,7 @@ function DeactivatePlate({id, handleClose, open}) {
           <Box sx={style} className=' shadow-lg rounded-md'>
             <Typography id="modal-modal-title" className='' variant="h6" component="h2">
               <div className=' flex justify-between'>
-                  <h1 className=' text-gray-400'>Deactivate Color</h1>
+                  <h1 className=' text-gray-400'>Activate Embosser</h1>
                  <div onClick={handleClose}>
                  <HighlightOffOutlinedIcon />
                  </div> 
@@ -66,7 +67,7 @@ function DeactivatePlate({id, handleClose, open}) {
             </Typography>
 
             <div className=' mt-4'>
-                <p className=' text-center font-bold mb-3'>Click OK to confirm Deactivation</p>
+                <p className=' text-center font-bold mb-3'>Click OK to confirm Activation</p>
                     <div className=' flex justify-center'>
                         <div className=' flex justify-between'>
                             <div>
@@ -88,4 +89,4 @@ function DeactivatePlate({id, handleClose, open}) {
   )
 }
 
-export default DeactivatePlate
+export default ActivateEmbosserColor

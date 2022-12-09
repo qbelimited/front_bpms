@@ -34,6 +34,7 @@ function SelectColor({value, onChange, bool}) {
                 id="demo-simple-select"
                 value={value}
                 label="Age"
+                required
                 onChange={(e) =>onChange(e.target.value)}
                 >
                  { color.map((i) =>(

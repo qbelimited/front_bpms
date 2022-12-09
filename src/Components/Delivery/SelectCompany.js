@@ -39,7 +39,7 @@ function SelectCompany({bool, value, onChange}) {
         onChange={(e) =>onChange(e.target.value)}
         >
         {company.map((i) =>(
-            <MenuItem key={i.id} value={i.id}>{i.name}</MenuItem>
+          i.status === '1' &&  <MenuItem key={i.id} value={i.id}>{i.name}</MenuItem>
         ))}
         
         </Select>

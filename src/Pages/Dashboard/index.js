@@ -124,7 +124,7 @@ function Dashboard(props) {
         isMenu: true,
         subMenu: [
             {
-              name: "Company mgment",
+              name: "Company managment",
               link: "/companymanagement",
               id: "company-mgment",
             },
@@ -214,7 +214,7 @@ function Dashboard(props) {
       <List>
           {sidebar.map((text, index) => (
 
-            <ListItem key={text} disablePadding sx={{ display: 'block' }} onClick={(e) => {
+            <ListItem key={index} disablePadding sx={{ display: 'block' }} onClick={(e) => {
                         let sideBar = [...sidebar];
                         let obj = sideBar[index];
                         obj.isOpen = !obj.isOpen;
@@ -243,9 +243,9 @@ function Dashboard(props) {
 
               </ListItemButton>
               </NavLink>
-              {text.isMenu  && text.isOpen ? text.subMenu.map((i) =>(
+              {text.isMenu  && text.isOpen ? text.subMenu.map((i,index) =>(
                 
-                <p key={i}  className=' pl-16 text-start py-1 text-gray-400'><NavLink to={i.link}>{i.name}</NavLink></p>
+                <p key={index}  className=' pl-16 text-start py-1 text-gray-400'><NavLink to={i.link}>{i.name}</NavLink></p>
                 
                   )) : null}
             </ListItem>

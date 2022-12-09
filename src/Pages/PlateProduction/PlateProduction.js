@@ -9,7 +9,7 @@ function PlateProduction() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
   return (
-    <div>
+    <div className=' '>
     <PlateProductionModal
         open={open}
         handleClose={handleClose}
@@ -25,7 +25,10 @@ function PlateProduction() {
         onClick={handleOpen}
        />
         </div>
+        <div className=' '>
         <PlateProTable />
+        </div>
+        
     </div>
   )
 }

@@ -27,7 +27,7 @@ function Delivery() {
           />
         </div>
         <div className=' mt-10 grid md:grid-cols-5'>
-        <div className=' col-span-4'>
+        <div className=' md:col-span-5'>
         <DeliveryTable />
         </div>
          

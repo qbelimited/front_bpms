@@ -33,7 +33,7 @@ function SelectSize({value, onChange, bool}) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={value}
-                
+                required
                 onChange={(e) =>onChange(e.target.value)}
                 >
                  { size.map((i) =>(

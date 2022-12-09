@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import GetServices from '../../Services/get-services';
 
 const columns = [
-  { id: 'sn', label: 'S/N' },
+  { id: 'sn', label: 'S/N', minWidth: 50,  },
   { id: 'date',  align: 'center', label: 'Date'},
   {
     id: 'batch',
@@ -99,9 +99,10 @@ export default function PlateProTable() {
   }, [])
 
   return (
-    <Paper className=' w-full mx-auto overflow-x-auto '>
-      <TableContainer className=' bg-gray-100' sx={{ maxHeight: 440 }}>
-        <Table   stickyHeader aria-label="sticky table">
+    <div className=' table-res   overflow-x-auto  md:w-full  '>
+    <Paper className='    overflow-x-auto '>
+      <TableContainer className=' bg-gray-100 overflow-x-scroll min-w-max overflow-scroll' >
+        <Table className=' table-auto w-full overflow-x-scroll min-w-max overflow-scroll'  stickyHeader aria-label="sticky table">
           <TableHead >
             <TableRow >
               {columns.map((column) => (
@@ -157,5 +158,6 @@ export default function PlateProTable() {
       />
       {productions.length === 0 && <p className=' text-center text-red-800'>No data found</p>}
     </Paper>
+    </div>
   );
 }

@@ -156,7 +156,40 @@ const addProduction = (plate_color_id, plate_dimension_id, quantity, batch_code,
     formData.append("status", '1');
     return axios.post(API_URL + '/api/npms/v1/add-production', formData, { headers: authHeader() } );
 }
+ const embossingPlate = (plate_id, embosser_color_id, embosser_text, serial_number_id) =>{
+    const formData = new FormData();
+    formData.append("plate_id", plate_id);
+    formData.append("embosser_color_id", embosser_color_id);
+    formData.append("embosser_text", embosser_text);
+    formData.append("serial_number_id", serial_number_id);
+    
+    formData.append("status", '1');
+    return axios.post(API_URL + '/api/npms/v1/emboss-plate', formData, { headers: authHeader() } );
+ }
+ const addEmbosserColor = (color, code) =>{
+    const formData = new FormData();
+    formData.append("color", color);
+    formData.append("code", code);
+    return axios.post(API_URL + '/api/npms/v1/add-embosser-color', formData, { headers: authHeader() } );
+ }
 
+ const updateEmbosserColor = (color, code, id) =>{
+    const formData = new FormData();
+    formData.append("color", color);
+    formData.append("code", code);
+    formData.append("id", id);
+    return axios.post(API_URL + '/api/npms/v1/update-embosser-color', formData, { headers: authHeader() } );
+ }
+ const activateEmbosserColor = (id) =>{
+    const formData = new FormData();
+    formData.append("id", id);
+    return axios.post(API_URL + '/api/npms/v1/activate-embosser-color', formData, { headers: authHeader() } );
+ }
+ const deactivateEmbosserColor =  (id) =>{
+    const formData = new FormData();
+    formData.append("id", id);
+    return axios.post(API_URL + '/api/npms/v1/deactivate-embosser-color', formData, { headers: authHeader() } );
+ }
 const postService = {
     addProduction,
     activatePlate,
@@ -177,7 +210,12 @@ const postService = {
     addColor,
     makeDelivery,
     confirmDelivery,
-    sendHelp
+    sendHelp,
+    embossingPlate, 
+    addEmbosserColor,
+    updateEmbosserColor,
+    activateEmbosserColor,
+    deactivateEmbosserColor
 }
 
 export default postService;

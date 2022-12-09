@@ -143,15 +143,17 @@ function CompanyManageTable() {
             location={location}
         />
         <div className='mb-10'>
-            <SearchButton
+        <div className=' grid md:grid-cols-2'>
+        <SearchButton
                 label='Search for a company'
-               
                 onChange={setValue}
              />
         </div>
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            
+        </div>
+      <Paper  sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer className=' bg-gray-50' sx={{ maxHeight: 440 }}>
-          <Table   stickyHeader aria-label="sticky table">
+          <Table className='table-res'  stickyHeader aria-label="sticky table">
             <TableHead >
               <TableRow >
                 {columns.map((column) => (

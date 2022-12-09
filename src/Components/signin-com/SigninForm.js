@@ -13,12 +13,16 @@ function SigninForm() {
    const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [messagee, setMessage] = useState('')
     const { isLoggedIn, isLoading, user } = useSelector((state) => state.auth);
     const { message } = useSelector((state) => state.message);
+  
+    const err = localStorage.getItem('error')
    let status = false
     const dispatch = useDispatch();
 
     useEffect(() => {
+     
       dispatch(clearMessage());
       if(status){
         navigate('/dashboard');
@@ -35,26 +39,27 @@ function SigninForm() {
       dispatch(
         login({email, password}))
       .unwrap()
-      .then(() =>{
-
+      .then((res) =>{
+        window.location.reload();
         if(user.response_code === '200'){
           localStorage.setItem('status', 'true')
           navigate('/dashboard');
-          
+          window.location.reload();
         }
-        window.location.reload();
+        
+       
       })
       .catch(() => {
-       
+      
       });
     }
     status = (localStorage.getItem("status"))
 
-    if (status && user) {
+    if ( isLoggedIn) {
       return <Navigate to="/dashboard" />;
     }
   
-    
+    console.log(`------- ${message}`)
 
   return (
     <>
@@ -87,6 +92,7 @@ function SigninForm() {
               
     </div>
     </form>
+    { err !== "undefined" ? <p className=' text-red-700 md:pl-6 mt-3'>{err }</p> : <></>}
     <LinkLogin 
         path='/resetpasswordvali'
         title='I have forgotten my password'

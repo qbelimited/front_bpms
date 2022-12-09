@@ -41,21 +41,21 @@ function createData(name, calories, fat, carbs, protein) {
   }
   
   const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, ),
-    createData('Ice cream sandwich', 237, 9.0, 37, ),
-    createData('Eclair', 262, 16.0, 24, ),
-    createData('Cupcake', 305, 3.7, 67, ),
-    createData('Gingerbread', 356, 16.0, 49, ),
-    createData('Frozen yoghurt', 159, 6.0, 24, ),
-    createData('Ice cream sandwich', 237, 9.0, 37, ),
-    createData('Eclair', 262, 16.0, 24, ),
-    createData('Cupcake', 305, 3.7, 67, ),
-    createData('Gingerbread', 356, 16.0, 49, ),
-    createData('Frozen yoghurt', 159, 6.0, 24, ),
-    createData('Ice cream sandwich', 237, 9.0, 37, ),
-    createData('Eclair', 262, 16.0, 24, ),
-    createData('Cupcake', 305, 3.7, 67, ),
-    createData('Gingerbread', 356, 16.0, 49, ),
+    createData('Frozen yoghurt', 159, 6.0, 24,'date' ),
+    createData('Ice cream sandwich', 237, 9.0, 37, 'date'),
+    createData('Eclair', 262, 16.0, 24, 'date'),
+    createData('Cupcake', 305, 3.7, 67,'date' ),
+    createData('Gingerbread', 356, 16.0, 49, 'date'),
+    createData('Frozen yoghurt', 159, 6.0, 24, 'date'),
+    createData('Ice cream sandwich', 237, 9.0, 37, 'date'),
+    createData('Eclair', 262, 16.0, 24, 'date'),
+    createData('Cupcake', 305, 3.7, 67, 'date'),
+    createData('Gingerbread', 356, 16.0, 49, 'date'),
+    createData('Frozen yoghurt', 159, 6.0, 24, 'date'),
+    createData('Ice cream sandwich', 237, 9.0, 37, 'date'),
+    createData('Eclair', 262, 16.0, 24, 'date'),
+    createData('Cupcake', 305, 3.7, 67, 'date'),
+    createData('Gingerbread', 356, 16.0, 49, 'date'),
   ];
 export default function MainTable() {
   const [page, setPage] = React.useState(0);
@@ -71,10 +71,10 @@ export default function MainTable() {
   };
 
   return (
-    <div className=' w-full overflow-x-auto'>
-    <Paper className=' w-full  '>
+    <div className=' min-w-fit overflow-x-auto'>
+    <Paper className=' '>
       <TableContainer sx={{ maxHeight: 440 }}>
-        <Table className=' bg-gray-100' stickyHeader aria-label="sticky table">
+        <Table className=' bg-gray-100 overflow-x-auto' stickyHeader aria-label="sticky table">
           <TableHead >
             <TableRow>
               {columns.map((column) => (
@@ -89,9 +89,9 @@ export default function MainTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, index) => (
             <TableRow
-              key={row.id}
+              key={index}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">

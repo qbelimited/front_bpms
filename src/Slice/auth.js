@@ -9,6 +9,7 @@ export const login = createAsyncThunk(
     async ({ email, password }, thunkAPI) => {
         try {
             const data = await AuthService.login(email, password);
+            
             return{user : data}
         }catch (error) {
             const message =
@@ -22,7 +23,6 @@ export const login = createAsyncThunk(
           }
     }
 )
-
 
 export const logout = createAsyncThunk(
     "auth/logout", 

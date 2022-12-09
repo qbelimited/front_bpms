@@ -10,7 +10,9 @@ const login = (email, password) => {
     .then((response) =>{
         if(response.data.response_code === '200'){
             localStorage.setItem('user', JSON.stringify(response.data))
+            
         }
+        localStorage.setItem('error',response.data.error)
         return response.data;
     })
 }
@@ -24,5 +26,6 @@ const authService = {
     login,
     logout
 }
+
 
 export default authService;

@@ -20,12 +20,12 @@ const style = {
   };
 
 
-function DeactivatePlate({id, handleClose, open}) {
+function DeactivateEmbosserColor({id, handleClose, open}) {
     const [loading, setLoading] = useState(false)
 
     const handleActivate = () =>{
         setLoading(true)
-        postService.deactivatePlate(id).then(
+        postService.deactivateEmbosserColor(id).then(
             (response) => {
                 console.log(response.data)
                 swal("Deactivation Successfully")
@@ -58,7 +58,7 @@ function DeactivatePlate({id, handleClose, open}) {
           <Box sx={style} className=' shadow-lg rounded-md'>
             <Typography id="modal-modal-title" className='' variant="h6" component="h2">
               <div className=' flex justify-between'>
-                  <h1 className=' text-gray-400'>Deactivate Color</h1>
+                  <h1 className=' text-gray-400'>Deactivate Embosser</h1>
                  <div onClick={handleClose}>
                  <HighlightOffOutlinedIcon />
                  </div> 
@@ -88,4 +88,4 @@ function DeactivatePlate({id, handleClose, open}) {
   )
 }
 
-export default DeactivatePlate
+export default DeactivateEmbosserColor

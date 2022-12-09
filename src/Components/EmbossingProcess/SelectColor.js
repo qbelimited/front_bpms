@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -40,7 +39,8 @@ function SelectColor({value, onChange, bool}) {
         onChange={(e) =>onChange(e.target.value)}
         >
         {colors.map((i) =>(
-            <MenuItem key={i.id} value={i.id}>{i.color}</MenuItem>
+          i.status === '1' &&  <MenuItem key={i.id} value={i.id}>{i.color}</MenuItem>
+           
         ))}
         
         </Select>

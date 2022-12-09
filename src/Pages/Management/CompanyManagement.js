@@ -26,7 +26,7 @@ function CompanyManagement() {
                     onClick={handleOpen}
                  />
             </div>
-        <div className=' mt-8 grid grid-cols-5 gap-4'>
+        <div className=' mt-8 grid md:grid-cols-5 gap-4'>
             <div className=' md:col-span-5'>
                 <CompanyManageTable />
             </div>

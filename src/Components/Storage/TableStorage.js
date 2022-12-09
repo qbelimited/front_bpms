@@ -75,7 +75,7 @@ function TableStorage() {
     }, [warehouseId])
    
     return (
-      <Paper className=' w-full overflow-hidden bg-gray-300'>
+      <Paper className=' w-full mt-10 mx-auto overflow-hidden bg-gray-300'>
             <div className='ml-2 mt-3 mb-6 grid md:grid-cols-2'>
               <WarehouseSelect 
                 value={warehouseId}

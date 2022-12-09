@@ -11,6 +11,7 @@ import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutl
 import { styled } from '@mui/material/styles';
 import GetServices from '../../Services/get-services';
 import UpdateDeliveryStatus from './UpdateDeliveryStatus';
+import { Link } from 'react-router-dom';
 
 const columns = [
   { id: 'sn', label: 'S/N', minWidth: 30 },
@@ -40,7 +41,7 @@ const columns = [
     id: 'sentby',
     label: 'Sent by',
     minWidth: 150,
-    align: 'right',
+    align: 'center',
    
   },
   {
@@ -54,7 +55,7 @@ const columns = [
     id: 'status',
     label: 'Status',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
    
   },
   {
@@ -157,13 +158,16 @@ export default function DeliveryTable() {
                 <TableCell align="right">{row.sent_by}</TableCell>
                 <TableCell align="right">{row.cost}</TableCell>
                
-                <TableCell align="right">{row.delivered === '1'?<span className=' bg-suc-color text-suc-text rounded-lg p-3'>Delivered</span>: 
+                <TableCell align="center">{row.delivered === '1'?<span className=' bg-suc-color  text-suc-text rounded-lg p-3'>Delivered</span>: 
                 <span onClick={(()=>{
                   setOpen(true)
                   setId(row.id)
-                })} className=' bg-inpro-co text-inpro-text rounded-lg p-3'>Pending</span>
+                })} className=' bg-inpro-co text-inpro-text cursor-pointer rounded-lg p-3'>Pending</span>
                 }</TableCell>
-                <TableCell align="right"><InsertDriveFileOutlinedIcon sx={{color: 'blue'}}/><span className=' text-blue-700'>{row.invoice}</span></TableCell>
+                <Link to='/bills'>
+                <TableCell align="center"> <InsertDriveFileOutlinedIcon sx={{color: 'blue'}}/><span className=' text-blue-700'>{row.invoice}</span></TableCell>
+                </Link>
+                
               </TableRow>
                   );
                 })}

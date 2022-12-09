@@ -76,12 +76,7 @@ function PlateSizeTable() {
             
           },
           (error) => {
-            const _content =
-              (error.response && error.response.data) ||
-              error.message ||
-              error.toString();
-    
-              setSize(_content);
+            
           }
         )
     },[])
@@ -154,15 +149,23 @@ function PlateSizeTable() {
                       setDimension(row.dimensions)
                       setCode(row.code)
                     }}
-                > <Tooltip title="Update"><EditIcon> </EditIcon></Tooltip></span> {row.status === '1' ?  <RemoveCircleOutlineOutlinedIcon className='cursor-pointer' onClick={ (() => {
+                > <Tooltip title="Update"><EditIcon> </EditIcon></Tooltip></span>  {row.status === '1' ? <span
+                  onClick={ (() => {
+                        setId(row.id)
+                        setOpen2(true)
+                      })}
+                  >
+                  
+                  <RemoveCircleOutlineOutlinedIcon className='cursor-pointer' 
+                 sx={{ color: 'red'}}/>
+                </span>    : <Tooltip className=' cursor-pointer' title="Activate">
+                 <span  onClick={ (() => {
                       setId(row.id)
-                      setOpen2(true)
-                    })}
-                 sx={{ color: 'red'}}/>  :
-                 <AddCircleOutlineOutlinedIcon onClick={ (() => {
-                      setId(row.id)
-                      setOpen1(true)
-                    })} sx={{ color: 'green'}}/>  
+                      setOpen(true)
+                    })}>
+                       <AddCircleOutlineOutlinedIcon sx={{ color: 'green'}}/>
+                    </span>
+                   </Tooltip>
                 }</TableCell>
               </TableRow>
                   );

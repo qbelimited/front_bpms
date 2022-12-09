@@ -9,6 +9,7 @@ import TextBox from '../SelectValue/TextBox';
 import SelectColor from './SelectColor';
 import SelectSize from './SelectSize';
 import postService from '../../Services/post-services';
+import Spinners from '../SelectValue/Spinner';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -128,7 +129,7 @@ function PlateProductionModal({open, handleClose}) {
           </Typography>
           <div className=' mt-3'>
           <Button 
-            name={loading ? 'Loading...' :'Start manufacturing'}
+            name={loading ? <Spinners/> :'Start manufacturing'}
            
           />
           </div>
