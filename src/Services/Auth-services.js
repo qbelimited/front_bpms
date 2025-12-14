@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://bpmsapi.qbelimited.com'
+const API_URL = 'http://localhost:8280'
 
 const login = (email, password) => {
     const formData = new FormData();
