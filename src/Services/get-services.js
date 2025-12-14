@@ -2,7 +2,7 @@
 import axios from "axios";
 import authHeader from "./authHeader";
 
-const API_URL = 'http://bpmsapi.qbelimited.com'
+const API_URL = 'http://localhost:8280'
 
 const getAllBill = () =>{
     return axios.get(API_URL + "/api/npms/v1/all-bills", { headers: authHeader() });
